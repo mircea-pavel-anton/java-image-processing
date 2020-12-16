@@ -1,15 +1,19 @@
-public class App {
-	
-	public static void main(String [] args) {
-		String inputFilePath = null;
-		String outputFilePath = null;
-		String filterName = null;
+import objects.singletons.ArgParser;
 
-		// TODO parse args
+public class App {
+
+	public static void main(String[] args) {
+		ArgParser argParser = ArgParser.getInstance();
+		try {
+			argParser.parse(args);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
 
 		System.out.println("Args:");
-		System.out.println(inputFilePath);
-		System.out.println(outputFilePath);
-		System.out.println(filterName);
+		System.out.println(argParser.getInputFilePath());
+		System.out.println(argParser.getOutputFilePath());
+		System.out.println(argParser.getFilterType());
 	}
 }
