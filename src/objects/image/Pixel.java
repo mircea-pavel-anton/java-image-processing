@@ -18,14 +18,24 @@ public class Pixel {
 	public void setBlueChannel(int blue) { this.blue = blue; }
 	
 	// Constructors
+	/** Sets each color channel to the specified intensity */
 	public Pixel(int red, int green, int blue) {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
 	}
+	
+	/** Sets all color channels to the same intensity => shades of gray */
 	public Pixel(int monochrome) {
 		this.red = monochrome;
 		this.green = monochrome;
 		this.blue = monochrome;
+	}
+	
+	/** Creates a black pixel */
+	public Pixel() {
+		red = 0;
+		green = 0;
+		blue = 0;
 	}
 }
