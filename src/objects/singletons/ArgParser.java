@@ -2,7 +2,9 @@ package objects.singletons;
 
 import java.io.File;
 
-public class ArgParser {
+import objects.GenericJob;
+
+public class ArgParser extends GenericJob{
 	// Singleton Instance
 	private static ArgParser instance = null;
 
@@ -95,7 +97,7 @@ public class ArgParser {
 	 * @param args = the array of arguments
 	 * @throws Exception: if insufficient or illegal arguments are found
 	 */
-	public void parse(String[] args) throws Exception {
+	private void parse(String[] args) throws Exception {
 		if (args.length < 6) {
 			throw new Exception("Insufficient input arguments");
 		} else {
@@ -123,6 +125,19 @@ public class ArgParser {
 		}
 	}
 	
+	/** A wrapper for the @parse function, that implements the functionality of the Timer class
+	 * 
+	 * @param args = the list of arguments that will be passed to @parse
+	 * @return = the job duration
+	 * @throws Exception - rethrows all exceptions from @parse
+	 */
+	public long parseArguments(String[] args) throws Exception {
+		Timer timer = Timer.getInstance();
+		timer.startJob(String.valueOf(jobIdentifier));
+		parse(args);
+		return timer.stopJob(String.valueOf(jobIdentifier));
+	}
+
 	/** Attempts to extract the value of an argument
 	 * 
 	 * @param args = the array of arguments
