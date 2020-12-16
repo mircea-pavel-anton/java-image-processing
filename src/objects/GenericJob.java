@@ -6,7 +6,5 @@ public abstract class GenericJob {
 	/** 
 	 * Generates a random number used as an identifier for the Timer object
 	 */
-	protected GenericJob() {
-		jobIdentifier = Math.random();
-	}
+	protected GenericJob() { jobIdentifier = Math.random(); }
 }
