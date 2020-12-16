@@ -35,4 +35,30 @@ public class Timer {
 		}
 		jobStart.put(identifier, Calendar.getInstance().getTimeInMillis());
 	}
+	public long stopJob(String identifier) throws Exception {
+		endJob(identifier);
+		long duration = getJobDuration(identifier);
+		deleteJobRecord(identifier);
+		return duration;
+	}
+
+	private void endJob(String identifier) throws Exception{
+		if ( !jobStart.containsKey(identifier) ) {
+			throw new Exception("No such job is running");
+		}
+		jobEnd.put(identifier, Calendar.getInstance().getTimeInMillis());
+	}
+	private void deleteJobRecord(String identifier) {
+		jobStart.remove(identifier);
+		jobEnd.remove(identifier);
+	}
+	private long getJobDuration(String identifier) throws Exception {
+		if ( !jobStart.containsKey(identifier) ) {
+			throw new Exception("No such job is running");
+		}
+		if ( !jobEnd.containsKey(identifier) ) {
+			throw new Exception("The job has not ended yet.");
+		}
+		return jobEnd.get(identifier) - jobStart.get(identifier);
+	}
 }
