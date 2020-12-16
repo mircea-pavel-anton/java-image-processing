@@ -1,5 +1,6 @@
 package objects.singletons;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class Timer {
@@ -27,4 +28,11 @@ public class Timer {
 	private HashMap<String, Long> jobEnd;
 	// In order to get the job duration, we can subtract jobEnd[jobName] - jobStart[jobName]
 	// To get the status of a job, we can see if it exists in either of the hashmaps
+
+	public void startJob(String identifier) throws Exception{
+		if ( jobStart.containsKey(identifier) ) {
+			throw new Exception("Another job with the same identifier is running.");
+		}
+		jobStart.put(identifier, Calendar.getInstance().getTimeInMillis());
+	}
 }
