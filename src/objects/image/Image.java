@@ -21,6 +21,22 @@ public class Image {
 	// Setters
 	public void setPixelAt(int lin, int col, Pixel pixel) { pixels[lin][col] = pixel; }
 
+	/** Converts an Image object to a BufferedImage object
+	 * 
+	 * @return = the Image in BufferedImage format
+	 */
+	public BufferedImage toBufferedImage() {
+		BufferedImage buffImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+		for (int xPixel = 0; xPixel < width; xPixel++) {
+			for (int yPixel = 0; yPixel < height; yPixel++) {
+				buffImage.setRGB(xPixel, yPixel, pixels[xPixel][yPixel].getRGB());
+			}
+		}
+
+		return buffImage;
+	}
+
 	// Constructors
 	/** Creates a new Image object from an existing matrix of pixels
 	 * 
