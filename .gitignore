@@ -24,3 +24,6 @@ hs_err_pid*
 
 # visual studio code config folder
 .vscode
+
+# test images used for debugging
+res
