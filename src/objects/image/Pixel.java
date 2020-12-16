@@ -10,6 +10,7 @@ public class Pixel {
 	public int getRedChannel() { return red; }
 	public int getGreenChannel() { return green; }
 	public int getBlueChannel()	{ return blue; }
+	public int getRGB() { return (red << 16 | green << 8 | blue); }
 
 	// Setters
 	public void setRedChannel(int red) { this.red = red; }
