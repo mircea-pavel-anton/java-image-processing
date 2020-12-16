@@ -61,4 +61,42 @@ public class ArgParser {
 		this.filterName = filter;
 	}
 
+
+	// Actual argument parsing
+	public void parse(String[] args) throws Exception {
+		if (args.length < 6) {
+			throw new Exception("Insufficient input arguments");
+		} else {
+			for (int i = 0; i < args.length; i++) {
+				switch (args[i]) {
+					case "-if":
+					case "--input":
+						setInputFilePath( getArgValue(args, i++) );
+						break;
+
+					case "-of":
+					case "--output":
+						setOutputFilePath( getArgValue(args, i++) );
+						break;
+
+					case "-f":
+					case "--filter":
+						setFilterType( getArgValue(args, i++) );
+						break;
+
+					default:
+						throw new Exception("Unknown input argument: " + args[i]);
+				}
+			}
+		}
+	}
+	
+	private String getArgValue(String[] args, int index) {
+		if (index + 1 < args.length) {
+			return args[index+1];
+		} else {
+			throw new IllegalArgumentException("Insufficient input arguments");
+		}
+	}
+
 }
