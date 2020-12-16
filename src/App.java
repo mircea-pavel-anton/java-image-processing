@@ -5,7 +5,7 @@ public class App {
 	public static void main(String[] args) {
 		ArgParser argParser = ArgParser.getInstance();
 		try {
-			argParser.parse(args);
+			argParser.parseArguments(args);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
