@@ -22,17 +22,33 @@ public class Image {
 	public void setPixelAt(int lin, int col, Pixel pixel) { pixels[lin][col] = pixel; }
 
 	// Constructors
+	/** Creates a new Image object from an existing matrix of pixels
+	 * 
+	 * @param pixels = the matrix of pixels
+	 */
 	public Image(Pixel[][] pixels) {
 		this.pixels = pixels.clone();
 		this.width = this.pixels.length;
 		this.height = this.pixels[0].length;
 	}
+
+	/** Creates a new Image object by parsing the image at the given path on disk.
+	 * 
+	 * @param path = the path to the image that will be read
+	 * @throws IOException rethrows the exceptions from ImageIO.read()
+	 */
 	public Image(String path) throws IOException{
+		// Read image from disk
 		BufferedImage image = ImageIO.read( new FileInputStream(path) );
+
+		// Get image dimensions
 		width = image.getWidth();
 		height = image.getHeight();
+
+		// Create a blank matrix of pixels, with the given dimensions
 		pixels = new Pixel[width][height];
 
+		// Loop through all pixels and extract rgb values
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				int rgb = image.getRGB(i, j);
