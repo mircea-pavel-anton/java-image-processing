@@ -1,5 +1,11 @@
 package objects.image;
 
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class Image {
 	// Fields
 	private int width; 			// image width in no. of pixels
@@ -20,5 +26,22 @@ public class Image {
 		this.pixels = pixels.clone();
 		this.width = this.pixels.length;
 		this.height = this.pixels[0].length;
+	}
+	public Image(String path) throws IOException{
+		BufferedImage image = ImageIO.read( new FileInputStream(path) );
+		width = image.getWidth();
+		height = image.getHeight();
+		pixels = new Pixel[width][height];
+
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				int rgb = image.getRGB(i, j);
+				pixels[i][j] = new Pixel(
+					(rgb>>16)&0xff,
+					(rgb>>8)&0xff,
+					(rgb)&0xff
+				);
+			}
+		}
 	}
 }
