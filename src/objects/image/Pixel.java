@@ -17,4 +17,15 @@ public class Pixel {
 	public void setGreenChannel(int green) { this.green = green; }
 	public void setBlueChannel(int blue) { this.blue = blue; }
 	
+	// Constructors
+	public Pixel(int red, int green, int blue) {
+		this.red = red;
+		this.green = green;
+		this.blue = blue;
+	}
+	public Pixel(int monochrome) {
+		this.red = monochrome;
+		this.green = monochrome;
+		this.blue = monochrome;
+	}
 }
