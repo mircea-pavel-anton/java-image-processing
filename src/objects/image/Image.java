@@ -16,7 +16,9 @@ public class Image {
 	public void setPixelAt(int lin, int col, Pixel pixel) { pixels[lin][col] = pixel; }
 
 	// Constructors
-	public Image() {
-
+	public Image(Pixel[][] pixels) {
+		this.pixels = pixels.clone();
+		this.width = this.pixels.length;
+		this.height = this.pixels[0].length;
 	}
 }
