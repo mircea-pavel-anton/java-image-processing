@@ -133,9 +133,9 @@ public class ArgParser extends GenericJob{
 	 */
 	public long parseArguments(String[] args) throws Exception {
 		Timer timer = Timer.getInstance();
-		timer.startJob(String.valueOf(jobIdentifier));
+		timer.startJob(String.valueOf(uID));
 		parse(args);
-		return timer.stopJob(String.valueOf(jobIdentifier));
+		return timer.stopJob(String.valueOf(uID));
 	}
 
 	/** Attempts to extract the value of an argument
