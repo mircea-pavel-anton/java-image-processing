@@ -29,6 +29,4 @@ public class GrayscaleFilter extends GenericFilter {
 	/** Returns the type of filter. grayscale, in this case */
 	@Override
 	public String getType() { return GRAYSCALE_FILTER; }
-
-	public GrayscaleFilter() {}
 }
