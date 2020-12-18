@@ -11,6 +11,16 @@ public class MirrorFilter extends GenericFilter {
 
 	private int mirroring = 0;
 
+	public MirrorFilter(int mirroring) {
+		if (mirroring == MIRROR_VERTICAL || 
+			mirroring == MIRROR_HORIZONTAL || 
+			mirroring == MIRROR_DIAGONAL) {
+			this.mirroring = mirroring;
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+
 	@Override
 	public Image filter(Image image) {
 		Pixel[][] mirrored = new Pixel[image.getWidth()][image.getHeight()];
