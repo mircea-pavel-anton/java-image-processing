@@ -2,6 +2,8 @@ package objects;
 
 public abstract class GenericJob {
 	protected double uID = 0;
+	protected long duration = 0;
+
 
 	protected double getUID() { 
 		if (uID == 0) {
@@ -9,4 +11,6 @@ public abstract class GenericJob {
 		}
 		return uID;
 	}
+
+	protected long getDuration() { return this.duration; }
 }

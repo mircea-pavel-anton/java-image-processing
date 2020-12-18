@@ -128,14 +128,13 @@ public class ArgParser extends GenericJob{
 	/** A wrapper for the @parse function, that implements the functionality of the Timer class
 	 * 
 	 * @param args = the list of arguments that will be passed to @parse
-	 * @return = the job duration
 	 * @throws Exception - rethrows all exceptions from @parse
 	 */
-	public long parseArguments(String[] args) throws Exception {
+	public void parseArguments(String[] args) throws Exception {
 		Timer timer = Timer.getInstance();
 		timer.startJob(String.valueOf(uID));
 		parse(args);
-		return timer.stopJob(String.valueOf(uID));
+		duration = timer.stopJob(String.valueOf(uID));
 	}
 
 	/** Attempts to extract the value of an argument
