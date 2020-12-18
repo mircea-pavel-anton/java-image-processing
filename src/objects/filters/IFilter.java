@@ -8,6 +8,7 @@ public interface IFilter {
 	public static final String NEGATIVE_FILTER = "negative";
 	public static final String MIRROR_FILTER = "mirror";
 	public static final String TRANSLATE_FILTER = "translate";
+	public static final String GRAYSCALE_TO_BINARY_FILTER = "grayscale-to-binary";
 
 
 	/** Runs the `filter` method and tracks execution time
