@@ -6,13 +6,8 @@ import objects.image.Pixel;
 public class BrightnessFilter extends GenericFilter {
 	private int brightness = 0;
 
-	public BrightnessFilter(int brightness) {
-		if (brightness < 256 && brightness > -256) {
-			this.brightness = brightness;
-		} else {
-			throw new IllegalArgumentException();
-		}
-	}
+	// Constructor
+	public BrightnessFilter(int brightness) { this.brightness = brightness; }
 
 	private int limit(int value) {
 		if (value > 255) return 255;
