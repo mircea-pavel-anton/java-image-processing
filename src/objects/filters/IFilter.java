@@ -1,7 +1,5 @@
 package objects.filters;
 
-import java.util.List;
-
 import objects.image.Image;
 
 public interface IFilter {
