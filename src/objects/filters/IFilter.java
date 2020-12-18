@@ -13,6 +13,7 @@ public interface IFilter {
 	public static final String BRIGHTNESS_FILTER = "brightness";
 	public static final String ROTATE_FILTER = "rotate";
 	public static final String CONTRAST_FILTER = "contrast";
+	public static final String ZOOM_FILTER = "zoom";
 
 	/** Runs the `filter` method and tracks execution time
 	 * 
