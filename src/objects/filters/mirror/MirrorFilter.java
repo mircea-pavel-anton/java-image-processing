@@ -1,5 +1,6 @@
-package objects.filters;
+package objects.filters.mirror;
 
+import objects.filters.GenericFilter;
 import objects.image.Image;
 import objects.image.Pixel;
 

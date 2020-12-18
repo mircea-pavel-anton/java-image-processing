@@ -1,5 +1,6 @@
-package objects.filters;
+package objects.filters.normalize;
 
+import objects.filters.GenericFilter;
 import objects.image.Image;
 import objects.image.Pixel;
 
