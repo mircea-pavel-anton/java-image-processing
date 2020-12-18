@@ -1,22 +1,16 @@
 package objects.filters;
 
-import objects.GenericJob;
 import objects.image.Image;
 import objects.image.Pixel;
-import objects.singletons.Timer;
 
-public class GrayscaleFilter extends GenericJob implements IFilter {
+public class GrayscaleFilter extends GenericFilter {
 
-	@Override
-	public Image apply(Image image) throws Exception{
-		String identifier = getType() + getUID();
-		Timer timer = Timer.getInstance();
-		timer.startJob( identifier );
-		Image filteredImage = filter(image);
-		duration = timer.stopJob( identifier );
-		return filteredImage;
-	}
-
+	/** Applies the grayscale filter, using the average method.
+	 * Loops through all pixels of the image, and sets the colors R=G=B=(R+G+B)/3
+	 * 
+	 * @param image -> the image to be processed
+	 * @return -> the grayscale image
+	 */
 	@Override
 	public Image filter(Image image) {
 		for (int x = 0; x < image.getWidth(); x++) {
@@ -32,6 +26,7 @@ public class GrayscaleFilter extends GenericJob implements IFilter {
 		return image;
 	}
 
+	/** Returns the type of filter. grayscale, in this case */
 	@Override
 	public String getType() { return GRAYSCALE_FILTER; }
 
