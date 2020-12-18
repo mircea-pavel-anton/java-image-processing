@@ -9,7 +9,7 @@ public interface IFilter {
 	public static final String MIRROR_FILTER = "mirror";
 	public static final String TRANSLATE_FILTER = "translate";
 	public static final String GRAYSCALE_TO_BINARY_FILTER = "grayscale-to-binary";
-
+	public static final String NORMALIZATION_FILTER = "normalization";
 
 	/** Runs the `filter` method and tracks execution time
 	 * 
