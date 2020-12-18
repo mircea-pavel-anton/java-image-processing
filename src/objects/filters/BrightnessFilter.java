@@ -4,11 +4,11 @@ import objects.image.Image;
 import objects.image.Pixel;
 
 public class BrightnessFilter extends GenericFilter {
-	private int brightness_delta = 0;
+	private int brightness = 0;
 
-	public BrightnessFilter(int brightness_delta) {
-		if (brightness_delta < 256 && brightness_delta > -256) {
-			this.brightness_delta = brightness_delta;
+	public BrightnessFilter(int brightness) {
+		if (brightness < 256 && brightness > -256) {
+			this.brightness = brightness;
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -26,9 +26,9 @@ public class BrightnessFilter extends GenericFilter {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);
 				pixel = new Pixel(
-					limit(pixel.getRedChannel() + brightness_delta),
-					limit(pixel.getGreenChannel() + brightness_delta),
-					limit(pixel.getBlueChannel() + brightness_delta)
+					limit(pixel.getRedChannel() + brightness),
+					limit(pixel.getGreenChannel() + brightness),
+					limit(pixel.getBlueChannel() + brightness)
 				);
 				image.setPixelAt( x, y, pixel);
 			}
