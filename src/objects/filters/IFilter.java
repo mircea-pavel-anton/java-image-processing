@@ -1,10 +1,13 @@
 package objects.filters;
 
+import java.util.List;
+
 import objects.image.Image;
 
 public interface IFilter {
 	// All filter type names as constants
 	public static final String GRAYSCALE_FILTER = "grayscale";
+	public static final String NEGATIVE_FILTER = "negative";
 
 
 	/** Runs the `filter` method and tracks execution time
