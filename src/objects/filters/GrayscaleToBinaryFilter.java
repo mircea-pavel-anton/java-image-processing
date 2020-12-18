@@ -6,6 +6,12 @@ import objects.image.Pixel;
 public class GrayscaleToBinaryFilter extends GenericFilter {
 	private int threshold;
 
+	/** Consructor
+	 * Ensures the given threshold is within the bounds of a 1 byte integer,
+	 * as the filter would otherwise produce all black or all white images
+	 * 
+	 * @param threshold -> the threshold for converting colors to either blac or white
+	 */
 	public GrayscaleToBinaryFilter(int threshold) {
 		if (threshold < 256 && threshold >= 0) {
 			this.threshold = threshold;
@@ -14,6 +20,15 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 		}
 	}
 
+	/** Applies the grayscale to binary filter, by comparing all pixels to the threshold
+	 * if (pixel < threshold for any color channel)
+	 *     pixel = black
+	 * else
+	 *     pixel = white
+	 * 
+	 * @param image -> the image to be processed
+	 * @return -> the binary image
+	 */
 	@Override
 	public Image filter(Image image) {
 		for (int x = 0; x < image.getWidth(); x++) {
@@ -28,7 +43,8 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 		}
 		return image;
 	}
-
+	
+	/** Returns the type of filter. grayscale-to-binary, in this case */
 	@Override
 	public String getType() { return GRAYSCALE_TO_BINARY_FILTER; }
 	

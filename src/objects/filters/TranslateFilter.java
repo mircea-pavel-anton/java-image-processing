@@ -6,8 +6,15 @@ import objects.image.Pixel;
 public class TranslateFilter extends GenericFilter {
 	private int xDelta = 0; // number of pixels to translate horizontally
 	private int yDelta = 0; // number of pixels to translate vertically
-	private Pixel fillColor;
+	private Pixel fillColor; // the color useed to fill in the blanks
 
+	/** Constructor
+	 * Ensures the given deltas for the x and y axis are positive integers.
+	 * The color used to fill in the blanks is automatically set to black.
+	 * 
+	 * @param x -> number of pixels to translate on the x axis
+	 * @param y -> number of pixels to translate on the y axis
+	 */
 	public TranslateFilter(int x, int y) {
 		if (x >= 0 && y >= 0) {
 			xDelta = x;
@@ -17,6 +24,14 @@ public class TranslateFilter extends GenericFilter {
 			throw new IllegalArgumentException();
 		}
 	}
+
+	/** Constructor
+	 * Ensures the given deltas for the x and y axis are positive integers.
+	 * 
+	 * @param x -> number of pixels to translate on the x axis
+	 * @param y -> number of pixels to translate on the y axis
+	 * @param color -> the Pixel used to fill in the blanks
+	 */
 	public TranslateFilter(int x, int y, Pixel color) {
 		if (x >= 0 && y >= 0) {
 			xDelta = x;
@@ -27,6 +42,12 @@ public class TranslateFilter extends GenericFilter {
 		}
 	}
 
+	/** Translates the image xDelta pixels to the right and yDelta pixels down
+	 * All the newly created pixels are then set to the given color (fillColor)
+	 * 
+	 * @param image -> the image to be processed
+	 * @return -> the translated image
+	*/
 	@Override
 	public Image filter(Image image) {
 		Pixel[][] translated = new Pixel[image.getWidth() + xDelta][image.getHeight() + yDelta];
@@ -49,6 +70,7 @@ public class TranslateFilter extends GenericFilter {
 		return new Image(translated);
 	}
 
+	/** Returns the type of filter. translate, in this case */
 	@Override
 	public String getType() { return TRANSLATE_FILTER; }
 }

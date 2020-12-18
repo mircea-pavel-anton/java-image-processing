@@ -62,6 +62,18 @@ public class NormalizationFilter extends GenericFilter {
 		return stdDev;
 	}
 
+	/** Applies the normalization filter on the image, by setting each color channel value to 
+	 * (value - average_value) / value_standard_deviation
+	 * 
+	 * For each color channel, we calculate the average value (@see getColorAverage)
+	 * and standard deviation (@see getStandardDeviation)
+	 * 
+	 * And then, for each pixel:
+	 *     R = (R - R_avg) / R_std_dev,
+	 *     G = (G - G_avg) / G_std_dev,
+	 *     B = (B - B_avg) / B_std_dev
+	 * 
+	 */
 	@Override
 	public Image filter(Image image) {
 		double[] average = getColorAverages(
@@ -92,6 +104,7 @@ public class NormalizationFilter extends GenericFilter {
 		return image;
 	}
 
+	/** Returns the type of filter. normalize, in this case */
 	@Override
 	public String getType() { return NORMALIZATION_FILTER; }
 	
