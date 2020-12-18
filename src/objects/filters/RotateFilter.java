@@ -7,12 +7,38 @@ public class RotateFilter extends GenericFilter {
 	private int rotationCount = 0;
 	private boolean isClockwise;
 
+	/** Constructor
+	 * Minimizes the number of rotations necessary by taking the modulo of 4, since 4 rotations
+	 * make us go dull circle.
+	 * 
+	 * @param rotationCount -> number of rotations
+	 * @param isClockwise -> direction of rotations
+	 */
 	public RotateFilter(int rotationCount, boolean isClockwise) {
 		this.rotationCount = rotationCount % 4;
 		this.isClockwise = isClockwise;
 	}
 
-
+	/** Rotates the matrix 90 degrees clockwise
+	 * 	It creates a new matrix with 
+	 *     newMatrix.width = matrix.height
+	 *     newMatrix.height = matrix.width
+	 * 
+	 * Then, it start copying items from the top right corner down (from matrix) to thme
+	 * top left corner to the right (in new matrix)
+	 * 
+	 * The direction of writing:
+	 *     matrix   => newMatrix
+	 *     * * * *     | * * * *
+	 *     * * * *     v * * * *
+	 *     * * * *  => * * * * *
+	 *     * * * *     * * * * *
+	 *     - > * *
+	 * Then, it goes to the second-to-last row in matrix, and second column in newMatrix, and so on
+	 * 
+	 * @param matrix -> the matrix to be rotated
+	 * @return -> the rotated matrix
+	 */
 	private Pixel[][] rotate90Clockwise(Pixel[][] matrix) {
 		int width = matrix.length;
 		int height = matrix[0].length;
@@ -32,6 +58,26 @@ public class RotateFilter extends GenericFilter {
 		return newMatrix;
 	}
 
+	/** Rotates the matrix 90 degrees counter-clockwise
+	 * 	It creates a new matrix with 
+	 *     newMatrix.width = matrix.height
+	 *     newMatrix.height = matrix.width
+	 * 
+	 * Then, it start copying items from the top right corner down (from matrix) to thme
+	 * top left corner to the right (in new matrix)
+	 * 
+	 * The direction of writing:
+	 *     matrix   => newMatrix
+	 *     * * < -     | * * * *
+	 *     * * * *     v * * * *
+	 *     * * * *  => * * * * *
+	 *     * * * *     * * * * *
+	 *     * * * *
+	 * Then, it goes to the second row in matrix, and second column in newMatrix, and so on
+	 * 
+	 * @param matrix -> the matrix to be rotated
+	 * @return -> the rotated matrix
+	 */
 	private Pixel[][] rotate90CounterClockwise(Pixel[][] matrix) {
 		int width = matrix.length;
 		int height = matrix[0].length;
@@ -51,6 +97,12 @@ public class RotateFilter extends GenericFilter {
 		return newMatrix;
 	}
 
+	/** Applies the rotation filter on the image, by spinning it 90 degrees, either clockwise or
+	 * counter clockwise, oncer per rotationCount
+	 * 
+	 * @param image -> the image to be processed
+	 * @return -> the rotated image
+	 */
 	@Override
 	public Image filter(Image image) {
 		Pixel[][] pixels = image.getPixels();
@@ -60,6 +112,7 @@ public class RotateFilter extends GenericFilter {
 		return new Image(pixels);
 	}
 
+	/** Returns the type of filter. rotate, in this case */
 	@Override
 	public String getType() { return ROTATE_FILTER; }
 }

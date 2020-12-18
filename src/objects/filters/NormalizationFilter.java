@@ -73,6 +73,8 @@ public class NormalizationFilter extends GenericFilter {
 	 *     G = (G - G_avg) / G_std_dev,
 	 *     B = (B - B_avg) / B_std_dev
 	 * 
+	 * @param image -> the image to be processed
+	 * @return -> the normalized image
 	 */
 	@Override
 	public Image filter(Image image) {
