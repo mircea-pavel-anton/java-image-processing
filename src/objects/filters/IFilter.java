@@ -6,6 +6,7 @@ public interface IFilter {
 	// All filter type names as constants
 	public static final String GRAYSCALE_FILTER = "grayscale";
 	public static final String NEGATIVE_FILTER = "negative";
+	public static final String MIRROR_FILTER = "mittot";
 
 
 	/** Runs the `filter` method and tracks execution time
