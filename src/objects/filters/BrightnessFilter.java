@@ -9,13 +9,6 @@ public class BrightnessFilter extends GenericFilter {
 	// Constructor
 	public BrightnessFilter(int brightness) { this.brightness = brightness; }
 
-	/** Ensures the given value stays within the bounds of a 1 byte int */
-	private int limit(int value) {
-		if (value > 255) return 255;
-		if (value < 0) return 0;
-		return value;
-	}
-
 	/** Applies a brightness filter by adding the given brightness value to each color channel
 	 * of each pixel.
 	 * Basically, each pixel = 255 + pixel, for each color channel
