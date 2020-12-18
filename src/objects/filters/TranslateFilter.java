@@ -6,6 +6,26 @@ import objects.image.Pixel;
 public class TranslateFilter extends GenericFilter {
 	private int xDelta = 0; // number of pixels to translate horizontally
 	private int yDelta = 0; // number of pixels to translate vertically
+	private Pixel fillColor;
+
+	public TranslateFilter(int x, int y) {
+		if (x >= 0 && y >= 0) {
+			xDelta = x;
+			yDelta = y;
+			fillColor = new Pixel(0); // black
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+	public TranslateFilter(int x, int y, Pixel color) {
+		if (x >= 0 && y >= 0) {
+			xDelta = x;
+			yDelta = y;
+			fillColor = color;
+		}else {
+			throw new IllegalArgumentException();
+		}
+	}
 
 	@Override
 	public Image filter(Image image) {
@@ -14,7 +34,7 @@ public class TranslateFilter extends GenericFilter {
 		// Fill the gaps with the specified color
 		for (int x = 0; x <  xDelta + image.getWidth(); x++) {
 			for (int y = 0; y < yDelta + image.getHeight(); y++) {
-				translated[x][y] = new Pixel(0);
+				translated[x][y] = fillColor;
 			}
 		}
 
