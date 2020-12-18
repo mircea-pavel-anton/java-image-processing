@@ -5,7 +5,18 @@ import objects.image.Pixel;
 
 public class NormalizationFilter extends GenericFilter {
 
-
+	/** Calculates the average value of each color channel
+	 * Each channel gets its average value calculated with the following formula:
+	 * R = (pixel[i][j].getRedChannel() for each i,j) / N
+	 * G = (pixel[i][j].getGreenChannel() for each i,j) / N
+	 * B = (pixel[i][j].getBlueChannel() for each i,j) / N
+	 * where N is the number of pixels in the image
+	 * 
+	 * @param pixels -> the image, as a matrix of pixels
+	 * @param width -> the width of the image, in pixels
+	 * @param height -> the height of the image in pixels
+	 * @return -> an array, containing the averages: {red_avg, green_avg, blue_avg}
+	 */
 	private double[] getColorAverages(Pixel[][] pixels, int width, int height) {
 		double[] average = {0, 0, 0}; // average = {red_avg, green_avg, blue_avg}
 		double n = (double)width * height;
@@ -20,6 +31,19 @@ public class NormalizationFilter extends GenericFilter {
 		return average;
 	}
 
+	/** Calculates the standard deviation for each color channel
+	 * Each channel gets its standard deviation calculated with the following formula:
+	 * R = sqrt( 1/(N-1) * Sum(pixel[i][j].getRedChannel() - average[red])^2 ) for each i,j
+	 * G = sqrt( 1/(N-1) * Sum(pixel[i][j].getGreenChannel() - average[red])^2 ) for each i,j
+	 * B = sqrt( 1/(N-1) * Sum(pixel[i][j].getBlueChannel() - average[red])^2 ) for each i,j
+	 * where N is the number of pixels in the image
+	 * 
+	 * @param pixels -> the image, as a matrix of pixels
+	 * @param width -> the width of the image, in pixels
+	 * @param height -> the height of the image in pixels
+	 * @param average -> the average value for each color channel ( @see getColorAverages() )
+	 * @return -> an array, containing the deviations: {red_dev, green_dev, blue_dev}
+	 */
 	private double[] getStandardDeviation(Pixel[][] pixels, int width, int height, double[] average) {
 		double[] stdDev = {0, 0, 0}; // average = {red_avg, green_avg, blue_avg}
 		double n = (double)width * height;
@@ -52,6 +76,7 @@ public class NormalizationFilter extends GenericFilter {
 			average
 		); // red, green, blue
 
+		// Set each pixel = (pixel - average) / standard_deviation
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);
