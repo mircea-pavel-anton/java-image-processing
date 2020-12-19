@@ -17,6 +17,20 @@ public class Pixel {
 	public void setGreen(double green) { this.green = green; }
 	public void setBlue(double blue) { this.blue = blue; }
 	
+
+	/** Ensures the given value stays within the bounds of a 1 byte int */
+	private double limit(double value) {
+		if (value > 255) return 255;
+		if (value < 0) return 0;
+		return value;
+	}
+	public Pixel clip() {
+		red = limit(red);
+		green = limit(green);
+		blue = limit(blue);
+		return this;
+	}
+
 	// Constructors
 	/** Sets each color channel to the specified intensity */
 	public Pixel(double red, double green, double blue) {
@@ -125,5 +139,9 @@ public class Pixel {
 			(int)this.getGreen() ^ (int)pixel.getGreen(),
 			(int)this.getBlue()  ^ (int)pixel.getBlue()
 		);
+	}
+
+	public Pixel clone() {
+		return new Pixel( this.red, this.green, this.blue);
 	}
 }
