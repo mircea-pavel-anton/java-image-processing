@@ -22,10 +22,10 @@ public class WeightedGrayscaleFilter extends AbstractGrayscaleFilter {
 	 */
 	@Override
 	protected Pixel toGrayscale(Pixel input) {
-		int grayscale = 0;
-		grayscale += input.getRedChannel()   * RED_BIAS;
-		grayscale += input.getGreenChannel() * GREEN_BIAS;
-		grayscale += input.getBlueChannel()  * BLUE_BIAS;
+		double grayscale = 0;
+		grayscale += input.getRed()   * RED_BIAS;
+		grayscale += input.getGreen() * GREEN_BIAS;
+		grayscale += input.getBlue()  * BLUE_BIAS;
 		return new Pixel(grayscale);
 	}	
 }

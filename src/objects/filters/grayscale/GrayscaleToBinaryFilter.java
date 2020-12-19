@@ -36,7 +36,7 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);
-				if (pixel.getBlueChannel() < threshold) {
+				if (pixel.getBlue() < threshold) {
 					image.setPixelAt(x, y, new Pixel(0));
 				} else {
 					image.setPixelAt(x, y, new Pixel(255));

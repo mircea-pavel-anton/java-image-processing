@@ -22,10 +22,6 @@ public class PowerLawGrayLevelFilter extends AbstractGrayLevelFilter {
 	 */
 	@Override
 	protected Pixel transform(Pixel input) {
-		return new Pixel(
-			limit( 255 * Math.pow( input.getRedChannel() 	/ 255.0, gamma) ),
-			limit( 255 * Math.pow( input.getGreenChannel()  / 255.0, gamma) ),
-			limit( 255 * Math.pow( input.getBlueChannel()   / 255.0, gamma) )
-		);
+		return input.divide(255).pow(gamma).multiply(255);
 	}
 }

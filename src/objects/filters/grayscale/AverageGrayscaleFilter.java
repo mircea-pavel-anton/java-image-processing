@@ -15,10 +15,10 @@ public class AverageGrayscaleFilter extends AbstractGrayscaleFilter {
 	 */
 	@Override
 	protected Pixel toGrayscale(Pixel input) {
-		int grayscale = 0;
-		grayscale += input.getRedChannel()   / 3;
-		grayscale += input.getGreenChannel() / 3;
-		grayscale += input.getBlueChannel()  / 3;
+		double grayscale = 0;
+		grayscale += input.getRed()   / 3;
+		grayscale += input.getGreen() / 3;
+		grayscale += input.getBlue()  / 3;
 		return new Pixel(grayscale);
 	}
 }

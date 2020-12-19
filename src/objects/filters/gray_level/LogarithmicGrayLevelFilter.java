@@ -20,10 +20,6 @@ public class LogarithmicGrayLevelFilter extends AbstractGrayLevelFilter {
 	 */
 	@Override
 	protected Pixel transform(Pixel input) {
-		return new Pixel(
-			limit( arg * Math.log( (double)input.getRedChannel() + 1 ) ),
-			limit( arg * Math.log( (double)input.getGreenChannel() + 1 ) ),
-			limit( arg * Math.log( (double)input.getBlueChannel() + 1 ) )
-		);
+		return input.add(1).log().multiply(arg);
 	}
 }

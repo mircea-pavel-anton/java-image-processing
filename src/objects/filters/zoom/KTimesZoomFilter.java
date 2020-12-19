@@ -26,12 +26,12 @@ public class KTimesZoomFilter extends AbstractZoomFilter {
 				output[zoomLevel*x][zoomLevel*y] = input[x][y];
 
 				for (int i = 0; i < zoomLevel -1 && zoomLevel * x + i < newWidth && x + 1 < oldWidth; i++) {
-					int redX   = input[x][y].getRedChannel();
-					int greenX = input[x][y].getGreenChannel();
-					int blueX  = input[x][y].getBlueChannel();
-					int redY   = input[x+1][y].getRedChannel();
-					int greenY = input[x+1][y].getGreenChannel();
-					int blueY  = input[x+1][y].getBlueChannel();
+					double redX   = input[x][y].getRed();
+					double greenX = input[x][y].getGreen();
+					double blueX  = input[x][y].getBlue();
+					double redY   = input[x+1][y].getRed();
+					double greenY = input[x+1][y].getGreen();
+					double blueY  = input[x+1][y].getBlue();
 					output[zoomLevel*x + i + 1][zoomLevel*y] = new Pixel(
 						( Math.min(redX, redY) + (Math.max(redX, redY) - Math.min(redX, redY)) / zoomLevel ) * (i+1),
 						( Math.min(greenX, greenY) + (Math.max(greenX, greenY) - Math.min(greenX, greenY)) / zoomLevel ) * (i+1),
@@ -47,12 +47,12 @@ public class KTimesZoomFilter extends AbstractZoomFilter {
 			for (int y = 0; y < newHeight; y++) {
 				if (output[x][y] == null) {
 					for (int i = 0; i < zoomLevel -1 && y + zoomLevel - 1 < newHeight; i++) {
-						int redX   = output[x][y-1].getRedChannel();
-						int greenX = output[x][y-1].getGreenChannel();
-						int blueX  = output[x][y-1].getBlueChannel();
-						int redY   = output[x][y + zoomLevel - 1].getRedChannel();
-						int greenY = output[x][y + zoomLevel - 1].getGreenChannel();
-						int blueY  = output[x][y + zoomLevel - 1].getBlueChannel();
+						double redX   = output[x][y-1].getRed();
+						double greenX = output[x][y-1].getGreen();
+						double blueX  = output[x][y-1].getBlue();
+						double redY   = output[x][y + zoomLevel - 1].getRed();
+						double greenY = output[x][y + zoomLevel - 1].getGreen();
+						double blueY  = output[x][y + zoomLevel - 1].getBlue();
 						output[x][y+i] = new Pixel(
 							( Math.min(redX, redY) + (Math.max(redX, redY) - Math.min(redX, redY)) / zoomLevel ) * (i+1),
 							( Math.min(greenX, greenY) + (Math.max(greenX, greenY) - Math.min(greenX, greenY)) / zoomLevel ) * (i+1),

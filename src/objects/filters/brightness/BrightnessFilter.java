@@ -2,7 +2,6 @@ package objects.filters.brightness;
 
 import objects.filters.GenericFilter;
 import objects.image.Image;
-import objects.image.Pixel;
 
 public class BrightnessFilter extends GenericFilter {
 	private int brightness = 0;
@@ -22,13 +21,11 @@ public class BrightnessFilter extends GenericFilter {
 		Image image = images[0];
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
-				Pixel pixel = image.getPixelAt(x, y);
-				pixel = new Pixel(
-					limit(pixel.getRedChannel() + brightness),
-					limit(pixel.getGreenChannel() + brightness),
-					limit(pixel.getBlueChannel() + brightness)
+				image.setPixelAt(
+					x,
+					y,
+					image.getPixelAt(x, y).add(brightness)
 				);
-				image.setPixelAt( x, y, pixel);
 			}
 		}
 		return image;

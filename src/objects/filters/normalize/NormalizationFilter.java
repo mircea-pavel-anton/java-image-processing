@@ -23,9 +23,9 @@ public class NormalizationFilter extends GenericFilter {
 		double n = (double)width * height;
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				average[0] += pixels[x][y].getRedChannel() / n;
-				average[1] += pixels[x][y].getGreenChannel() / n;
-				average[2] += pixels[x][y].getBlueChannel() / n;
+				average[0] += pixels[x][y].getRed() / n;
+				average[1] += pixels[x][y].getGreen() / n;
+				average[2] += pixels[x][y].getBlue() / n;
 			}
 		}
 
@@ -51,9 +51,9 @@ public class NormalizationFilter extends GenericFilter {
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				stdDev[0] += Math.pow( pixels[x][y].getRedChannel() - average[0], 2 );
-				stdDev[1] += Math.pow( pixels[x][y].getGreenChannel() - average[1], 2 );
-				stdDev[2] += Math.pow( pixels[x][y].getBlueChannel() - average[2], 2 );
+				stdDev[0] += Math.pow( pixels[x][y].getRed() - average[0], 2 );
+				stdDev[1] += Math.pow( pixels[x][y].getGreen() - average[1], 2 );
+				stdDev[2] += Math.pow( pixels[x][y].getBlue() - average[2], 2 );
 			}
 		}
 		stdDev[0] = Math.sqrt( 1/n * stdDev[0] );
@@ -97,9 +97,9 @@ public class NormalizationFilter extends GenericFilter {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);
 				pixel = new Pixel(
-					(int) (pixel.getRedChannel() - average[0] / stdDev[0]),
-					(int) (pixel.getGreenChannel() - average[1] / stdDev[1]),
-					(int) (pixel.getBlueChannel() - average[2] / stdDev[2])
+					(int) (pixel.getRed() - average[0] / stdDev[0]),
+					(int) (pixel.getGreen() - average[1] / stdDev[1]),
+					(int) (pixel.getBlue() - average[2] / stdDev[2])
 				);
 				image.setPixelAt(x, y, pixel);
 			}

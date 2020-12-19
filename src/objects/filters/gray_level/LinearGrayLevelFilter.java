@@ -11,10 +11,6 @@ public class LinearGrayLevelFilter extends AbstractGrayLevelFilter {
 	 */
 	@Override
 	protected Pixel transform(Pixel input) {
-		return new Pixel(
-			255 - input.getRedChannel(),
-			255 - input.getGreenChannel(),
-			255 - input.getBlueChannel()
-		);
+		return new Pixel(255).subtract(input);
 	}
 }
