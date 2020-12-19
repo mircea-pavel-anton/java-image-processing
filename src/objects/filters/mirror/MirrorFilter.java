@@ -41,7 +41,8 @@ public class MirrorFilter extends GenericFilter {
 	 * @return -> the mirrored image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(Image[] images) {
+		Image image = images[0];
 		Pixel[][] mirrored = new Pixel[image.getWidth()][image.getHeight()];
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {

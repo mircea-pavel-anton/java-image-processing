@@ -15,20 +15,21 @@ public interface IFilter {
 	public static final String CONTRAST_FILTER = "contrast";
 	public static final String ZOOM_FILTER = "zoom";
 	public static final String GRAY_LEVEL_FILTER = "gray-level";
+	public static final String BINARY_FILTER = "gray-level";
 
 	/** Runs the `filter` method and tracks execution time
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the processed image, as returned by `filter`
 	 */
-	public Image apply(Image image) throws Exception;
+	public Image apply(Image[] image) throws Exception;
 
 	/** Applies the operations associated to the filter on the given image, and returns the result
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the processed image
 	 */
-	public Image filter(Image image);
+	public Image filter(Image[] image);
 
 	/** Returns a string identifier for each specific kind of filter */
 	public String getType();

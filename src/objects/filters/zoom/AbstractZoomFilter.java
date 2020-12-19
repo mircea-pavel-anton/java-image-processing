@@ -25,7 +25,8 @@ public abstract class AbstractZoomFilter extends GenericFilter {
 	 * @return -> the zoomed image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(Image[] images) {
+		Image image = images[0];
 		return new Image( zoom(image.getPixels()) );
 	}
 

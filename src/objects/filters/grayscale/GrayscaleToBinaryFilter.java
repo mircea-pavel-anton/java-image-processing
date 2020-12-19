@@ -31,7 +31,8 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 	 * @return -> the binary image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(Image[] images) {
+		Image image = images[0];
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);

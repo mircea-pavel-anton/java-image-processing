@@ -21,7 +21,7 @@ public abstract class GenericFilter extends GenericJob implements IFilter {
 	 * @return -> the filtered image, as returned by the `filter` method from IFilter
 	 */
 	@Override
-	public Image apply(Image image) throws Exception{
+	public Image apply(Image[] image) throws Exception{
 		String identifier = getType() + getUID();
 		Timer timer = Timer.getInstance();
 		timer.startJob( identifier );
