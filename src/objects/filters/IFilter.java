@@ -15,7 +15,7 @@ public interface IFilter {
 	public static final String CONTRAST_FILTER = "contrast";
 	public static final String ZOOM_FILTER = "zoom";
 	public static final String GRAY_LEVEL_FILTER = "gray-level";
-	public static final String BINARY_FILTER = "gray-level";
+	public static final String BINARY_FILTER = "binary";
 
 	/** Runs the `filter` method and tracks execution time
 	 * 
