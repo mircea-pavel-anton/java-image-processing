@@ -17,7 +17,8 @@ public interface IFilter {
 	public static final String GRAY_LEVEL_FILTER = "gray-level";
 	public static final String BINARY_FILTER = "binary";
 	public static final String CONVOLUTION_FILTER = "convolution";
-	public static final String HISTOGRAM_FILTER = "convolution";
+	public static final String HISTOGRAM_FILTER = "histogram";
+	public static final String COLOR_DEPTH_REDUCTION_FILTER = "depth-reduction";
 
 	/** Runs the `filter` method and tracks execution time
 	 * 
