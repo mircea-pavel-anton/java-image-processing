@@ -126,6 +126,14 @@ public class Pixel {
 			(int)this.getBlue()  & (int)pixel.getBlue()
 		);
 	}
+	public Pixel and(int value){
+		return new Pixel(
+			(int)this.getRed()   & value,
+			(int)this.getGreen() & value,
+			(int)this.getBlue()  & value
+		);
+	}
+
 	public Pixel or(Pixel pixel){
 		return new Pixel(
 			(int)this.getRed()   | (int)pixel.getRed(),
