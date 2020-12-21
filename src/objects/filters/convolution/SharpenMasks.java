@@ -1,6 +1,6 @@
 package objects.filters.convolution;
 
-public class SharpenFilter extends AbstractConvolutionFilter {
+public interface SharpenMasks {
 	public static final double[][] SHARPEN_KERNEL_3_LOW = {
 		{ 0, -1,  0},
 		{-1,  5, -1},
@@ -11,9 +11,4 @@ public class SharpenFilter extends AbstractConvolutionFilter {
 		{-1,  9, -1},
 		{-1, -1, -1}
 	};
-
-
-	public SharpenFilter(double[][] kernel) {
-		this.kernel = kernel;
-	}
 }

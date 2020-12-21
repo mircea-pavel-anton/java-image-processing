@@ -4,8 +4,10 @@ import objects.filters.GenericFilter;
 import objects.image.Image;
 import objects.image.Pixel;
 
-public abstract class AbstractConvolutionFilter extends GenericFilter {
+public class ConvolutionFilter extends GenericFilter {
 	double[][] kernel;
+
+	public ConvolutionFilter(double[][] kernel) { this.kernel = kernel; }
 
 	private Pixel[][] conv(Pixel[][] input) {
 		int width = input.length;

@@ -1,6 +1,6 @@
 package objects.filters.convolution;
 
-public class LaplacianFilter extends AbstractConvolutionFilter {
+public interface LaplacianMasks {
 	public static final double[][] LAPLACIAN_KERNEL1 = {
 		{ 0, -1 ,  0},
 		{-1,  4 , -1},
@@ -11,9 +11,4 @@ public class LaplacianFilter extends AbstractConvolutionFilter {
 		{-1,  8 , -1},
 		{-1, -1 , -1}
 	};
-
-
-	public LaplacianFilter(double[][] kernel) {
-		this.kernel = kernel;
-	}
 }
