@@ -24,7 +24,7 @@ public class BrightnessFilter extends GenericFilter {
 				image.setPixelAt(
 					x,
 					y,
-					image.getPixelAt(x, y).add(brightness)
+					image.getPixelAt(x, y).add(brightness).clip()
 				);
 			}
 		}
