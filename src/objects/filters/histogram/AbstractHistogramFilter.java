@@ -1,5 +1,7 @@
 package objects.filters.histogram;
 
+import java.util.Arrays;
+
 import objects.filters.GenericFilter;
 import objects.image.Pixel;
 
@@ -37,15 +39,19 @@ public abstract class AbstractHistogramFilter extends GenericFilter {
 	protected AbstractHistogramFilter(int samples, boolean isRGB) {
 		this.sampleSize = 256.0 / samples;
 		if (isRGB) {
-			this.redLevelHistogram   = new int[samples];
-			this.greenLevelHistogram = new int[samples];
-			this.blueLevelHistogram  = new int[samples];
-			this.grayLevelHistogram  = null;
+			redLevelHistogram   = new int[samples];
+			Arrays.fill(redLevelHistogram, 0);
+			greenLevelHistogram = new int[samples];
+			Arrays.fill(greenLevelHistogram, 0);
+			blueLevelHistogram  = new int[samples];
+			Arrays.fill(blueLevelHistogram, 0);
+			grayLevelHistogram  = null;
 		} else {
 			this.redLevelHistogram   = null;
 			this.greenLevelHistogram = null;
 			this.blueLevelHistogram  = null;
 			this.grayLevelHistogram  = new int[samples];
+			Arrays.fill(grayLevelHistogram, 0);
 		}
 	}
 

@@ -28,7 +28,7 @@ public class GrayLevelHistogram extends AbstractHistogramFilter {
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if ( y < blueLevelHistogram[(int)(x/xSize)] / ySize ) {
+				if ( y < grayLevelHistogram[(int)(x/xSize)] / ySize ) {
 					int color = (int)Math.round(255.0 / samples * x/xSize);
 					histogram[x][height-y-1] = new Pixel(color);
 				} else {
