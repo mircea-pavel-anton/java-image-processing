@@ -19,6 +19,10 @@ import objects.filters.convolution.masks.LaplacianMasks;
 import objects.filters.convolution.masks.PrewittMasks;
 import objects.filters.convolution.masks.SharpenMasks;
 import objects.filters.convolution.masks.SobelMasks;
+import objects.filters.gray_level.AbstractGrayLevelFilter;
+import objects.filters.gray_level.LinearGrayLevelFilter;
+import objects.filters.gray_level.LogarithmicGrayLevelFilter;
+import objects.filters.gray_level.PowerLawGrayLevelFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -186,6 +190,47 @@ public class FilterBuilder extends GenericJob {
 		} while (filter == null);
 		sc.close();
 
+		return filter;
+	}
+
+	/** Interactive shell prompt to create a gray level filter */
+	private AbstractGrayLevelFilter createGrayLevelFilter() {
+		AbstractGrayLevelFilter filter = null;
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("The available gray level transforms are:");
+			System.out.println(" 1. Linear (negative, not identity)");
+			System.out.println(" 2. Logarithmic");
+			System.out.println(" 3. Power Law");
+			selection = sc.nextInt();
+
+			switch (selection) { 
+				case  1: filter = new LinearGrayLevelFilter(); break;
+				case  2:
+					System.out.println("The logarithmic filter requires you to input the value for 'c' to use in the formula:");
+					System.out.println("s = c * log(r+1), where:");
+					System.out.println("s = the new color");
+					System.out.println("r = the old color");
+					int c = sc.nextInt();
+					filter = new LogarithmicGrayLevelFilter(c);
+					break;
+				case  3:
+					System.out.println("The power law filter requires you to input the values for 'y' and 'c' to use in the formula:");
+					System.out.println("s = c * r^y, where:");
+					System.out.println("s = the new color");
+					System.out.println("r = the old color");
+					System.out.println("y = "); int y = sc.nextInt();
+					System.out.println("c = "); int c = sc.nextInt();
+
+					filter = new PowerLawGrayLevelFilter(y, c);
+					break;
+				default: System.out.println("Invalid selection"); break;
+			}
+		} while (filter == null);
+		
+		sc.close();
 		return filter;
 	}
 
