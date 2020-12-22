@@ -11,6 +11,7 @@ import objects.filters.binary.AbstractBinaryFilter;
 import objects.filters.binary.ORFilter;
 import objects.filters.binary.XORFilter;
 import objects.filters.brightness.BrightnessFilter;
+import objects.filters.color_depth_reduction.ColorDepthReductionFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -90,6 +91,35 @@ public class FilterBuilder extends GenericJob {
 		return new BrightnessFilter(brightness);
 	}
 
+	/** Interactive shell prompt to create a color depth reduction filter */
+	private ColorDepthReductionFilter createColorDepthReductionFilter() {
+		int bits = 0;
+		int msb = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("Please enter the number of bits you wish to keep: (0-7)");
+			bits = sc.nextInt();
+			
+			if (bits > 7 || bits < 0) {
+				System.out.println("Invalid value!");
+			}
+		} while (bits > 7 || bits < 0);
+		
+		do {
+			System.out.println("Please choose the type of truncation: ");
+			System.out.println("1. Truncate starting from MSB");
+			System.out.println("2. Truncate starting from LSB");
+			msb = sc.nextInt();
+			
+			if (msb != 1 && msb != 2) {
+				System.out.println("Invalid value!");
+			}
+		} while (msb != 1 && msb != 2);
+		sc.close();
+
+		return new ColorDepthReductionFilter(bits, msb == 1);
+	}
 
 
 	/** Interactive shell sequence that prompts the user to build up filters */
