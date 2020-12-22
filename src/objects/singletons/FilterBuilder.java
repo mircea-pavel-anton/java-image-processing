@@ -37,6 +37,10 @@ import objects.filters.mirror.MirrorFilter;
 import objects.filters.normalize.NormalizationFilter;
 import objects.filters.rotate.RotateFilter;
 import objects.filters.translate.TranslateFilter;
+import objects.filters.zoom.AbstractZoomFilter;
+import objects.filters.zoom.KTimesZoomFilter;
+import objects.filters.zoom.PixelReplicationZoomFilter;
+import objects.filters.zoom.ZeroOrderHoldZoomFilter;
 import objects.image.Image;
 import objects.image.Pixel;
 
@@ -436,8 +440,39 @@ public class FilterBuilder extends GenericJob {
 		return new TranslateFilter(x, y, pixel);
 	}
 
+	/** Interactive shell prompt to create a zoom filter */
+	private AbstractZoomFilter createZoomFilter() {
+		AbstractZoomFilter filter = null;
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("The available zooming algorithms are: ");
+			System.out.println("1. Pixel replication");
+			System.out.println("2. Zero order Hold (zooms to 2x size)");
+			System.out.println("3. K-Times Zooming");
+			selection = sc.nextInt();
+
+			int zoomLevel = 0;
+			if (selection == 1 || selection == 3) {
+				do {
+					System.out.println("How many times do you wish to enlarge the image? (2-inf)");
+					zoomLevel = sc.nextInt();
+				} while (zoomLevel < 2);
+			}
+			switch (selection) {
+				case 1: filter = new PixelReplicationZoomFilter(zoomLevel); break;
+				case 2: filter = new ZeroOrderHoldZoomFilter(); break;
+				case 3: filter = new KTimesZoomFilter(zoomLevel); break;
+				default: System.out.println("Invalid selection.");
+			}
+		} while(filter == null);
+		sc.close();
+		return filter;
+	}
+
 	/** Interactive shell sequence that prompts the user to build up filters */
-	private void build() {
+	private void build() throws Exception {
 		int selection = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
