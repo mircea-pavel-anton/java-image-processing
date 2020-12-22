@@ -8,7 +8,7 @@ public abstract class AbstractBinaryFilter extends GenericFilter {
 	private Image lhsImage = null;
 	
 	/** "Caches" the second image */
-	protected void loadImage(Image image) { this.lhsImage = image; }
+	public void loadImage(Image image) { this.lhsImage = image; }
 
 	/** Checks whether or not the 2 images are matching in size */
 	private boolean imageSizeMatch(Image a, Image b) {
