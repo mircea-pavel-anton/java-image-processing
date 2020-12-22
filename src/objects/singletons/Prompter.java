@@ -18,17 +18,17 @@ public class Prompter {
 		return instance;
 	}
 
-    private Scanner sc;
+	private Scanner sc;
 	// Constructor
 	private Prompter() { sc = new Scanner(System.in); } // private constructor, meant to hide the default, public one
-    public void close() { sc.close(); }
+	public void close() { sc.close(); }
 
 	public int getBoundedInt(String prompt, int leftBound, int rightBound) {
 		int input = 0;
 		do {
 			System.out.print(prompt);
 			input = sc.nextInt();
-		} while (input <= leftBound && input >= rightBound);
+		} while (input < leftBound || input > rightBound);
 
 		return input;
 	}
@@ -45,7 +45,7 @@ public class Prompter {
 			System.out.print(prompt);
 			if (sc.hasNext()) input = sc.nextDouble();
 			sc.nextLine();
-		} while (input <= leftBound && input >= rightBound);
+		} while (input <= leftBound || input >= rightBound);
 		return input;
 
 	}
