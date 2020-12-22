@@ -1,4 +1,4 @@
-package objects.filters.convolution;
+package objects.filters.convolution.masks;
 
 public interface SobelMasks {
 	public static final double[][] VERTICAL_SOBEL_KERNEL = {

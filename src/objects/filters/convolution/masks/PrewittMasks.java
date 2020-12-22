@@ -1,4 +1,4 @@
-package objects.filters.convolution;
+package objects.filters.convolution.masks;
 
 public interface PrewittMasks {
 	public static final double[][] HORIZONTAL_PREWITT_KERNEL = {

@@ -1,4 +1,4 @@
-package objects.filters.convolution;
+package objects.filters.convolution.masks;
 
 public interface LaplacianMasks {
 	public static final double[][] LAPLACIAN_KERNEL1 = {

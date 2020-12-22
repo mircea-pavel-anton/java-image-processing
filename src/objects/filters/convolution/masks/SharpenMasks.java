@@ -1,4 +1,4 @@
-package objects.filters.convolution;
+package objects.filters.convolution.masks;
 
 public interface SharpenMasks {
 	public static final double[][] SHARPEN_KERNEL_3_LOW = {
