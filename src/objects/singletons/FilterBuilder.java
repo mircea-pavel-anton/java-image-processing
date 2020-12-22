@@ -33,6 +33,7 @@ import objects.filters.histogram.GrayLevelHistogram;
 import objects.filters.histogram.GreenLevelHistogram;
 import objects.filters.histogram.RedLevelHistogram;
 import objects.filters.invert.NegativeFilter;
+import objects.filters.mirror.MirrorFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -342,6 +343,25 @@ public class FilterBuilder extends GenericJob {
 
 	/** "Interactive" (lol) shell prompt to create a negative filter */
 	private NegativeFilter createNegativeFilter() { return new NegativeFilter(); }
+
+	/** Interactive shell prompt to create a mirror filter */
+	private MirrorFilter createMirrorFilter() {
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("The available mirror axis are:");
+			System.out.println(" 1. Ox");
+			System.out.println(" 2. Oy");
+			System.out.println(" 3. Both");
+			selection = sc.nextInt();
+
+			if (selection > 0 && selection < 4) {
+				sc.close();
+				return new MirrorFilter(selection);
+			}
+		} while (true);
+	}
 
 	/** Interactive shell sequence that prompts the user to build up filters */
 	private void build() {
