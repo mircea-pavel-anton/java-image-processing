@@ -10,6 +10,7 @@ import objects.filters.binary.ANDFilter;
 import objects.filters.binary.AbstractBinaryFilter;
 import objects.filters.binary.ORFilter;
 import objects.filters.binary.XORFilter;
+import objects.filters.brightness.BrightnessFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -38,6 +39,7 @@ public class FilterBuilder extends GenericJob {
 	public ArrayList<GenericFilter> getFilters() { return this.filters; }
 
 	// Custom filter builders
+	/** Interactive shell prompt to create a binary filter */
 	private AbstractBinaryFilter createBinaryFilter() throws Exception {
 		AbstractBinaryFilter filter = null;
 		int selection = 0;
@@ -68,6 +70,24 @@ public class FilterBuilder extends GenericJob {
 		filter.loadImage(new Image(testFile.getAbsolutePath()));
 		sc.close();
 		return filter;
+	}
+
+	/** Interactive shell prompt to create a brightness filter */
+	private BrightnessFilter createBrightnessFilter() {
+		int brightness = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("Please enter the brightness adjustment value (-255, 255):");
+			brightness = sc.nextInt();
+			
+			if (brightness > 255 || brightness < -255) {
+				System.out.println("Invalid value!");
+			}
+		} while (brightness > 255 || brightness < -255);
+		sc.close();
+
+		return new BrightnessFilter(brightness);
 	}
 
 
