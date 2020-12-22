@@ -24,8 +24,8 @@ public class ArgParser extends GenericJob{
 		return instance;
 	}
 
-	// Constructor
-	private ArgParser() { } // private constructor, meant to hide the default, public one
+	/** Private constructor, to hide the default public one */
+	private ArgParser() { }
 
 	// Arguments that can be parsed
 	private File inputFile = null; // path to the image that will be filtered
