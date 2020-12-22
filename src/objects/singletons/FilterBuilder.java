@@ -32,6 +32,7 @@ import objects.filters.histogram.BlueLevelHistogram;
 import objects.filters.histogram.GrayLevelHistogram;
 import objects.filters.histogram.GreenLevelHistogram;
 import objects.filters.histogram.RedLevelHistogram;
+import objects.filters.invert.NegativeFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -338,6 +339,9 @@ public class FilterBuilder extends GenericJob {
 		return filter;
 
 	}
+
+	/** "Interactive" (lol) shell prompt to create a negative filter */
+	private NegativeFilter createNegativeFilter() { return new NegativeFilter(); }
 
 	/** Interactive shell sequence that prompts the user to build up filters */
 	private void build() {
