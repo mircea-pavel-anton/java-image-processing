@@ -1,7 +1,6 @@
 package objects.singletons;
 
 import java.io.File;
-import java.util.Scanner;
 
 import objects.GenericJob;
 public class ArgParser extends GenericJob{
@@ -47,7 +46,7 @@ public class ArgParser extends GenericJob{
 	 *   - if read access is denied to the file
 	 */
 	public void setInputFilePath(String inputFilePath, boolean force) throws Exception {
-		if (this.inputFile != null || force == false) {
+		if (this.inputFile != null && force == false) {
 			throw new Exception("Input file has already been set.");
 		}
 		File inputFile = new File(inputFilePath);
@@ -82,15 +81,10 @@ public class ArgParser extends GenericJob{
 		if (!outputFile.exists()) {
 			this.outputFile = outputFile;
 		} else {
-			char input = ' ';
-			Scanner scan = new Scanner(System.in);
-			do {
-				System.out.println("File already exists. Overwrite? [y/N]");
-				input = scan.nextLine().charAt(0);
-			} while (input != 'y' || input != 'Y' || input != 'n' || input != 'N');
-			scan.close();
+			System.out.println("File already exists. Overwrite? [Y=1/N=0]");
+			int input = Prompter.getInstance().getBoundedInt("overwrite?: ", 0, 1);
 
-			if (input == 'Y' || input == 'y') {
+			if (input == 1) {
 				if ( outputFile.delete() ) {
 					this.outputFile = new File(outputFilePath);
 				} else {
@@ -123,6 +117,7 @@ public class ArgParser extends GenericJob{
 				} else {
 					throw new Exception("Unknown argument.\nSee '-h' for help");
 				}
+				break;
 			
 			case 2:
 				for (int i = 0; i < 2; i++) {
@@ -138,8 +133,9 @@ public class ArgParser extends GenericJob{
 						throw new Exception("Unknown argument.\nSee '-h' for help");
 					}
 				}
+				break;
 			default:
-				throw new Exception("Simp only ccepts 2 arguments.\nSee '-h' for help");
+				throw new Exception("Simp only accepts 2 arguments.\nSee '-h' for help");
 		}
 	}
 	
