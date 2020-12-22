@@ -23,6 +23,9 @@ import objects.filters.gray_level.AbstractGrayLevelFilter;
 import objects.filters.gray_level.LinearGrayLevelFilter;
 import objects.filters.gray_level.LogarithmicGrayLevelFilter;
 import objects.filters.gray_level.PowerLawGrayLevelFilter;
+import objects.filters.grayscale.AbstractGrayscaleFilter;
+import objects.filters.grayscale.AverageGrayscaleFilter;
+import objects.filters.grayscale.WeightedGrayscaleFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -226,6 +229,29 @@ public class FilterBuilder extends GenericJob {
 
 					filter = new PowerLawGrayLevelFilter(y, c);
 					break;
+				default: System.out.println("Invalid selection"); break;
+			}
+		} while (filter == null);
+		
+		sc.close();
+		return filter;
+	}
+
+	/** Interactive shell prompt to create a grayscale filter */
+	private AbstractGrayscaleFilter createGrayscaleFilter() {
+		AbstractGrayscaleFilter filter = null;
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("The available grayscale methods are:");
+			System.out.println(" 1. Average method");
+			System.out.println(" 2. Weighted (Luminosity method)");
+			selection = sc.nextInt();
+
+			switch (selection) { 
+				case  1: filter = new AverageGrayscaleFilter(); break;
+				case  2: filter = new WeightedGrayscaleFilter(); break;
 				default: System.out.println("Invalid selection"); break;
 			}
 		} while (filter == null);
