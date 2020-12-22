@@ -27,6 +27,11 @@ import objects.filters.grayscale.AbstractGrayscaleFilter;
 import objects.filters.grayscale.AverageGrayscaleFilter;
 import objects.filters.grayscale.GrayscaleToBinaryFilter;
 import objects.filters.grayscale.WeightedGrayscaleFilter;
+import objects.filters.histogram.AbstractHistogramFilter;
+import objects.filters.histogram.BlueLevelHistogram;
+import objects.filters.histogram.GrayLevelHistogram;
+import objects.filters.histogram.GreenLevelHistogram;
+import objects.filters.histogram.RedLevelHistogram;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -226,9 +231,9 @@ public class FilterBuilder extends GenericJob {
 					System.out.println("s = the new color");
 					System.out.println("r = the old color");
 					System.out.println("y = "); int y = sc.nextInt();
-					System.out.println("c = "); int c = sc.nextInt();
+					System.out.println("c = "); int k = sc.nextInt();
 
-					filter = new PowerLawGrayLevelFilter(y, c);
+					filter = new PowerLawGrayLevelFilter(y, k);
 					break;
 				default: System.out.println("Invalid selection"); break;
 			}
@@ -277,6 +282,61 @@ public class FilterBuilder extends GenericJob {
 
 		sc.close();
 		return new GrayscaleToBinaryFilter(threshold);
+	}
+
+	/** Interactive shell prompt to create a histogram filter */
+	private AbstractHistogramFilter createHistogramFilter() {
+		AbstractHistogramFilter filter = null;
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("The available hsitograms are:");
+			System.out.println(" 1. Red level histogram");
+			System.out.println(" 2. Green level histogram");
+			System.out.println(" 3. Blue level histogram");
+			System.out.println(" 4. Gray Level Histogram");
+			selection = sc.nextInt();
+
+			if (selection > 0 && selection < 5) {
+				int samples = 0;
+				int width = 0;
+				int height = 0;
+
+
+				do {
+					System.out.println("Please enter the number of samples: (0, 255):");
+					samples = sc.nextInt();
+					
+					if (samples > 255 || samples < 0) {
+						System.out.println("Invalid value!");
+					}
+				} while (samples > 255 || samples < 0);
+
+				System.out.println("Please enter the output image width in pixels");
+				width = sc.nextInt();
+				
+				System.out.println("Please enter the output image height in pixels");
+				height = sc.nextInt();
+
+				switch (selection) { 
+					case  1: filter = new RedLevelHistogram(width, height, samples); break;
+					case  2: filter = new GreenLevelHistogram(width, height, samples); break;
+					case  3: filter = new BlueLevelHistogram(width, height, samples); break;
+					case  4: 
+						System.out.println("Is the input image already grayscaled? [y/n]");
+						boolean isGrayscale = sc.nextBoolean();
+						if (!isGrayscale) filters.add(new AverageGrayscaleFilter());
+						filter = new GrayLevelHistogram(width, height, samples);
+						break;
+					default: System.out.println("Invalid selection"); break;
+				}
+			}
+		} while (filter == null);
+		
+		sc.close();
+		return filter;
+
 	}
 
 	/** Interactive shell sequence that prompts the user to build up filters */
