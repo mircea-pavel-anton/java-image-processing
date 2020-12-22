@@ -65,9 +65,9 @@ public class Pixel {
 		);
 	}
 
-	public Pixel divide(int value) { return multiply(1 / value); }
-	public Pixel divide(float value) { return multiply(1 / value); }
-	public Pixel divide(double value) { return multiply(1 / value); }
+	public Pixel divide(int value) { return multiply(1.0 / value); }
+	public Pixel divide(float value) { return multiply(1.0 / value); }
+	public Pixel divide(double value) { return multiply(1.0 / value); }
 	public Pixel divide(Pixel pixel) {
 		return new Pixel(
 			this.red / pixel.red,
