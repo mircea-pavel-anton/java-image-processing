@@ -13,6 +13,12 @@ import objects.filters.binary.XORFilter;
 import objects.filters.brightness.BrightnessFilter;
 import objects.filters.color_depth_reduction.ColorDepthReductionFilter;
 import objects.filters.contrast.ContrastFilter;
+import objects.filters.convolution.ConvolutionFilter;
+import objects.filters.convolution.masks.BlurMasks;
+import objects.filters.convolution.masks.LaplacianMasks;
+import objects.filters.convolution.masks.PrewittMasks;
+import objects.filters.convolution.masks.SharpenMasks;
+import objects.filters.convolution.masks.SobelMasks;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -138,6 +144,49 @@ public class FilterBuilder extends GenericJob {
 		sc.close();
 
 		return new ContrastFilter(contrast);
+	}
+
+	/** Interactive shell prompt to create a convolution filter */
+	private ConvolutionFilter createConvolutionFilter() {
+		ConvolutionFilter filter = null;
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("The available convolution masks are:");
+			System.out.println(" 1. 3x3 Box Blur Mask");
+			System.out.println(" 2. 5x5 Box Blur Mask");
+			System.out.println(" 3. 3x3 Gaussian Blur Mask");
+			System.out.println(" 4. 5x5 Gaussian Blur Mask");
+			System.out.println(" 5. 3x3 Sharpening Mask (low intensity)");
+			System.out.println(" 6. 3x3 Sharpening Mask (high intensity)");
+			System.out.println(" 7. 3x3 Discrete Approx. of Laplacian filter 1");
+			System.out.println(" 8. 3x3 Discrete Approx. of Laplacian filter 2");
+			System.out.println(" 9. 3x3 Vertical Prewitt Mask");
+			System.out.println("10. 3x3 Horizontal Prewitt Mask");
+			System.out.println("11. 3x3 Vertical Sobel Mask");
+			System.out.println("12. 3x3 Horizontal Soble Mask");
+			selection = sc.nextInt();
+
+			switch (selection) { 
+				case  1: filter = new ConvolutionFilter(BlurMasks.BOX_BLUR_3); break;
+				case  2: filter = new ConvolutionFilter(BlurMasks.BOX_BLUR_5); break;
+				case  3: filter = new ConvolutionFilter(BlurMasks.GAUSSIAN_BLUR_3); break;
+				case  4: filter = new ConvolutionFilter(BlurMasks.GAUSSIAN_BLUR_5); break;
+				case  5: filter = new ConvolutionFilter(SharpenMasks.SHARPEN_KERNEL_3_LOW); break;
+				case  6: filter = new ConvolutionFilter(SharpenMasks.SHARPEN_KERNEL_3_HIGH); break;
+				case  7: filter = new ConvolutionFilter(LaplacianMasks.LAPLACIAN_KERNEL1); break;
+				case  8: filter = new ConvolutionFilter(LaplacianMasks.LAPLACIAN_KERNEL2); break;
+				case  9: filter = new ConvolutionFilter(PrewittMasks.VERTICAL_PREWITT_KERNEL); break;
+				case 10: filter = new ConvolutionFilter(PrewittMasks.HORIZONTAL_PREWITT_KERNEL); break;
+				case 11: filter = new ConvolutionFilter(SobelMasks.VERTICAL_SOBEL_KERNEL); break;
+				case 12: filter = new ConvolutionFilter(SobelMasks.HORIZONTAL_SOBEL_KERNEL); break;
+				default: System.out.println("Invalid selection"); break;
+			}
+		} while (filter == null);
+		sc.close();
+
+		return filter;
 	}
 
 	/** Interactive shell sequence that prompts the user to build up filters */
