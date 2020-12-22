@@ -34,6 +34,7 @@ import objects.filters.histogram.GreenLevelHistogram;
 import objects.filters.histogram.RedLevelHistogram;
 import objects.filters.invert.NegativeFilter;
 import objects.filters.mirror.MirrorFilter;
+import objects.filters.normalize.NormalizationFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -362,6 +363,9 @@ public class FilterBuilder extends GenericJob {
 			}
 		} while (true);
 	}
+
+	/** "Interactive" (lol) shell prompt to create a normalization filter */
+	private NormalizationFilter createNormalizationFilter() { return new NormalizationFilter(); }
 
 	/** Interactive shell sequence that prompts the user to build up filters */
 	private void build() {
