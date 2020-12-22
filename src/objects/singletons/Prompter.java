@@ -23,7 +23,7 @@ public class Prompter {
 	private Prompter() { sc = new Scanner(System.in); } // private constructor, meant to hide the default, public one
     public void close() { sc.close(); }
 
-	public int promptForBoundedInt(String prompt, int leftBound, int rightBound) {
+	public int getBoundedInt(String prompt, int leftBound, int rightBound) {
 		int input = 0;
 		do {
 			System.out.print(prompt);
@@ -32,14 +32,14 @@ public class Prompter {
 
 		return input;
 	}
-	public double promptForDouble(String prompt) {
+	public double getDouble(String prompt) {
 		double input = 0;
 		System.out.print(prompt);
 		input = sc.nextDouble();
 		return input;
 
 	}
-	public double promptForBoundedDouble(String prompt, double leftBound, double rightBound) {
+	public double getBoundedDouble(String prompt, double leftBound, double rightBound) {
 		double input = 0;
 		do {
 			System.out.print(prompt);
@@ -49,7 +49,7 @@ public class Prompter {
 		return input;
 
 	}
-	public String promptForString(String prompt) {
+	public String getString(String prompt) {
 		String input = "";
 		do {
 			System.out.print(prompt);
