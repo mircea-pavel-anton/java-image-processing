@@ -27,18 +27,15 @@ public class App {
 				}
 				ImageIO.write(temp.toBufferedImage(), "bmp", output);
 
-				System.out.println("");
-				System.out.println("Processing finished!");
+				System.out.println("\nProcessing finished!");
 				System.out.println("You can find the processed image at: " + output.getAbsolutePath() );
-				System.out.println("");
-				System.out.println("---- SUMMARY ----");
+				System.out.println("\n\n---- SUMMARY ----");
 				System.out.println("Parsing the input arguments took: " + argParser.getDuration() + " ms");
 				System.out.println("Building the filter list took: " + fBuilder.getDuration() + " ms");
 				for (int i = 0; i < filters.size(); i++) {
 					System.out.println("Applying the " + filters.get(i).getType() + " filter took: " + filters.get(i).getDuration() + " ms");
 				}
-				System.out.println("----");
-				System.out.println("");
+				System.out.println("----\n\n");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
