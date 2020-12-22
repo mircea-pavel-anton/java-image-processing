@@ -25,6 +25,7 @@ import objects.filters.gray_level.LogarithmicGrayLevelFilter;
 import objects.filters.gray_level.PowerLawGrayLevelFilter;
 import objects.filters.grayscale.AbstractGrayscaleFilter;
 import objects.filters.grayscale.AverageGrayscaleFilter;
+import objects.filters.grayscale.GrayscaleToBinaryFilter;
 import objects.filters.grayscale.WeightedGrayscaleFilter;
 import objects.image.Image;
 
@@ -260,6 +261,24 @@ public class FilterBuilder extends GenericJob {
 		return filter;
 	}
 
+	/** Interactive shell prompt to create a grayscale-to-binary filter */
+	private GrayscaleToBinaryFilter createGrayscaleToBinaryFilter() {
+		int threshold = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("Please enter the threshold: (0, 255):");
+			threshold = sc.nextInt();
+			
+			if (threshold > 255 || threshold < 0) {
+				System.out.println("Invalid value!");
+			}
+		} while (threshold > 255 || threshold < 0);
+
+		sc.close();
+		return new GrayscaleToBinaryFilter(threshold);
+	}
+
 	/** Interactive shell sequence that prompts the user to build up filters */
 	private void build() {
 		int selection = 0;
@@ -292,7 +311,7 @@ public class FilterBuilder extends GenericJob {
 				case  5: filters.add( createConvolutionFilter() ); break;
 				case  6: filters.add( createGrayLevelFilter() ); break;
 				case  7: filters.add( createGrayscaleFilter() ); break;
-				case  8: filters.add( createeGrayscaletoBinaryFilter() ); break;
+				case  8: filters.add( createGrayscaleToBinaryFilter() ); break;
 				case  9: filters.add( createHistogramFilter() ); break;
 				case 10: filters.add( createNegativeFilter() ); break;
 				case 11: filters.add( createMirrorFilter() ); break;
