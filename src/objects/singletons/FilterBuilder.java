@@ -476,7 +476,12 @@ public class FilterBuilder extends GenericJob {
 		int selection = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
-			System.out.println("Please select the operation you wish to apply: ");
+			System.out.println("Current filter stack: ");
+			for (int i = 0; i < filters.size(); i++) {
+				System.out.println("  - " + filters.get(i).getType());
+			}
+
+			System.out.println("Please select the operation you wish to add to the stack: ");
 			System.out.println(" 1. Binary operation between two images");
 			System.out.println(" 2. Brightness adjustment");
 			System.out.println(" 3. Color Depth Reduction");
