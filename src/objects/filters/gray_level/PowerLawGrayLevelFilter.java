@@ -23,6 +23,6 @@ public class PowerLawGrayLevelFilter extends AbstractGrayLevelFilter {
 	 */
 	@Override
 	protected Pixel transform(Pixel input) {
-		return input.pow(gamma).multiply(c);
+		return input.pow(gamma).multiply(c).clip();
 	}
 }

@@ -20,6 +20,6 @@ public class LogarithmicGrayLevelFilter extends AbstractGrayLevelFilter {
 	 */
 	@Override
 	protected Pixel transform(Pixel input) {
-		return input.add(1).log().multiply(arg);
+		return input.add(1).log().multiply(arg).clip();
 	}
 }
