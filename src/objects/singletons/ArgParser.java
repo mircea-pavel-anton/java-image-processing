@@ -1,10 +1,18 @@
 package objects.singletons;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import objects.GenericJob;
-
 public class ArgParser extends GenericJob{
+	private static final String[] HELP = {
+		"Usage: simp --input=/path/to/file --output=/path/to/file2",
+		"And then follow the on-screen prompts in order to choose your filters."
+	};
+
+
 	// Singleton Instance
 	private static ArgParser instance = null;
 
@@ -21,17 +29,15 @@ public class ArgParser extends GenericJob{
 	}
 
 	// Constructor
-	private ArgParser() {} // private constructor, meant to hide the default, public one
+	private ArgParser() { } // private constructor, meant to hide the default, public one
 
 	// Arguments that can be parsed
-	private String inputFilePath = null; // path to the image that will be filtered
-	private String outputFilePath = null; // path to the processed image
-	private String filterName = null; // the name of the filter to use
+	private List<File> inputFiles = new ArrayList<File>(); // path to the images that will be filtered
+	private File outputFile = null; // path to the processed image
 
 	// Getters
-	public String getInputFilePath() { return inputFilePath; }
-	public String getOutputFilePath() { return outputFilePath; }
-	public String getFilterType() { return filterName; }
+	public List<File> getInputFiles() { return inputFiles; }
+	public File getOutputFile() { return outputFile; }
 
 	// Setters
 	/** Checks the validity of the given path and assigns it to inputFilePath if it is valid
@@ -42,23 +48,23 @@ public class ArgParser extends GenericJob{
 	 *   - if a directory has been given, instead of a file
 	 *   - if read access is denied to the file
 	 */
-	public void setInputFilePath(String inputFilePath) throws Exception {
+	public void addInputFilePath(String inputFilePath, boolean force) throws Exception {
+		if (this.inputFiles.size() != 0 || force == false) {
+			throw new Exception("Input file has already been set.");
+		}
 		File inputFile = new File(inputFilePath);
 
 		if (inputFile.exists()) {
 			if (inputFile.isFile()) {
 				if (inputFile.canRead()) {
-					this.inputFilePath = inputFile.getAbsolutePath();
+					this.inputFiles.add( inputFile );
 				} else {
-					this.inputFilePath = null;
 					throw new Exception("Cannot read from file: '" + inputFilePath + "'");
 				}
 			} else {
-				this.inputFilePath = null;
 				throw new Exception("File is directory: '" + inputFilePath + "'");
 			}
 		} else {
-			this.inputFilePath = null;
 			throw new Exception("No such file exists: '" + inputFilePath + "'");
 		}
 	}
@@ -69,23 +75,33 @@ public class ArgParser extends GenericJob{
 	 * @throws Exception if the file already exists
 	 */
 	public void setOutputFilePath(String outputFilePath) throws Exception {
+		if (this.outputFile != null) {
+			throw new Exception("Output file has already been set.");
+		}
+
 		File outputFile = new File(outputFilePath);
 
 		if (!outputFile.exists()) {
-			this.outputFilePath = outputFile.getAbsolutePath();
+			this.outputFile = outputFile;
 		} else {
-			this.outputFilePath = null;
-			throw new Exception("File already exists: '" + outputFilePath + "'");
+			char input = ' ';
+			Scanner scan = new Scanner(System.in);
+			do {
+				System.out.println("File already exists. Overwrite? [y/N]");
+				input = scan.nextLine().charAt(0);
+			} while (input != 'y' || input != 'Y' || input != 'n' || input != 'N');
+			scan.close();
+
+			if (input == 'Y' || input == 'y') {
+				if ( outputFile.delete() ) {
+					this.outputFile = new File(outputFilePath);
+				} else {
+					throw new Exception("Unable to delete file: '" + outputFilePath + "'");
+				}
+			} else {
+				throw new Exception("File already exists: '" + outputFilePath + "'");
+			}
 		}
-	}
-	
-	/** Checks if the requested filter type exists, and assigns it to filterName if it does
-	 * 
-	 * @param filter = the type of filter to use
-	 */
-	public void setFilterType(String filter) {
-		// TODO check if filter name is valid
-		this.filterName = filter;
 	}
 
 	/** Loops through the args array, and attempts to match the values to the appropriate fields,
@@ -98,30 +114,34 @@ public class ArgParser extends GenericJob{
 	 * @throws Exception: if insufficient or illegal arguments are found
 	 */
 	private void parse(String[] args) throws Exception {
-		if (args.length < 6) {
-			throw new Exception("Insufficient input arguments");
-		} else {
-			for (int i = 0; i < args.length; i++) {
-				switch (args[i]) {
-					case "-if":
-					case "--input":
-						setInputFilePath( getArgValue(args, i++) );
-						break;
-
-					case "-of":
-					case "--output":
-						setOutputFilePath( getArgValue(args, i++) );
-						break;
-
-					case "-f":
-					case "--filter":
-						setFilterType( getArgValue(args, i++) );
-						break;
-
-					default:
-						throw new Exception("Unknown input argument: " + args[i]);
+		switch (args.length) {
+			case 0:
+				throw new Exception("Insufficient arguments.\nSee '-h' for help");
+			
+			case 1:
+				if (args[0].equals("-h") || args[0].equals("--help")) {
+					for (int i = 0; i < HELP.length; i++)
+						System.out.println(HELP[i]);
+				} else {
+					throw new Exception("Unknown argument.\nSee '-h' for help");
 				}
-			}
+			
+			case 2:
+				for (int i = 0; i < 2; i++) {
+					if (args[i].contains("--input=")) {
+						addInputFilePath( args[i].substring(8), false );
+					} else if (args[i].contains("-i=")) {
+						addInputFilePath( args[i].substring(3), false );
+					} else if (args[i].contains("--output=")) {
+						setOutputFilePath( args[i].substring(9) );
+					} else if (args[i].contains("-o=")) {
+						setOutputFilePath( args[i].substring(3) );
+					} else {
+						throw new Exception("Unknown argument.\nSee '-h' for help");
+					}
+				}
+			default:
+				throw new Exception("Simp only ccepts 2 arguments.\nSee '-h' for help");
 		}
 	}
 	
@@ -136,19 +156,4 @@ public class ArgParser extends GenericJob{
 		parse(args);
 		duration = timer.stopJob(String.valueOf(uID));
 	}
-
-	/** Attempts to extract the value of an argument
-	 * 
-	 * @param args = the array of arguments
-	 * @param index = the index of the found 'regex' ('--input', '--output' or '--filter')
-	 * @return the argument value, if it exists
-	 */
-	private String getArgValue(String[] args, int index) {
-		if (index + 1 < args.length) {
-			return args[index+1];
-		} else {
-			throw new IllegalArgumentException("Insufficient input arguments");
-		}
-	}
-
 }
