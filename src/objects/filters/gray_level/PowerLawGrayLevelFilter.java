@@ -4,9 +4,10 @@ import objects.image.Pixel;
 
 public class PowerLawGrayLevelFilter extends AbstractGrayLevelFilter {
 	private double gamma;
+	private double c;
 
 	/** Constructor */
-	public PowerLawGrayLevelFilter(double gamma) { this.gamma = gamma; }
+	public PowerLawGrayLevelFilter(double gamma, double c) { this.gamma = gamma; this.c = c; }
 
 	/** Applies the power-law transformation onto a pixel.
 	 * The formula used is s = c * r^y, where
@@ -22,6 +23,6 @@ public class PowerLawGrayLevelFilter extends AbstractGrayLevelFilter {
 	 */
 	@Override
 	protected Pixel transform(Pixel input) {
-		return input.divide(255).pow(gamma).multiply(255);
+		return input.pow(gamma).multiply(c);
 	}
 }
