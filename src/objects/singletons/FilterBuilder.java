@@ -94,7 +94,7 @@ public class FilterBuilder extends GenericJob {
 			System.out.println("Please enter the path to the second image: ");
 			String path = prompter.getString("path: ");
 			testFile = new File(path);
-		} while (testFile.exists() && testFile.isFile() && testFile.canRead());
+		} while (!testFile.exists() || testFile.isDirectory() || !testFile.canRead());
 
 		filter.loadImage(new Image(testFile.getAbsolutePath()));
 		return filter;
@@ -123,7 +123,7 @@ public class FilterBuilder extends GenericJob {
 	/** Interactive shell prompt to create a contrast filter */
 	private ContrastFilter createContrastFilter() {
 		System.out.println("Please enter the desired contrast level: (0, 255):");
-		int contrast = prompter.getBoundedInt("contrast leve: ", 0, 255);
+		int contrast = prompter.getBoundedInt("contrast level: ", 0, 255);
 		return new ContrastFilter(contrast);
 	}
 
@@ -180,7 +180,7 @@ public class FilterBuilder extends GenericJob {
 				System.out.println("s = c * log(r+1), where:");
 				System.out.println("s = the new color");
 				System.out.println("r = the old color");
-				double c = prompter.getBoundedDouble("c: ", 1.0, 255.0);
+				double c = prompter.getDouble("c: ");
 				filter = new LogarithmicGrayLevelFilter(c);
 				break;
 			case  3:
@@ -189,7 +189,7 @@ public class FilterBuilder extends GenericJob {
 				System.out.println("s = the new color");
 				System.out.println("r = the old color");
 				double y = prompter.getDouble("y: ");
-				double k = prompter.getBoundedDouble("c: ", 1.0, 255.0);
+				double k = prompter.getDouble("c: ");
 				filter = new PowerLawGrayLevelFilter(y, k);
 				break;
 			default: System.out.println("Invalid selection"); break;
@@ -219,6 +219,11 @@ public class FilterBuilder extends GenericJob {
 	private GrayscaleToBinaryFilter createGrayscaleToBinaryFilter() {
 		System.out.println("Please enter the threshold: (0, 255):");
 		int threshold = prompter.getBoundedInt("threshold: ", 0, 255);
+
+		System.out.println("Is the image grayscaled already? [Y=1/N=0]");
+		int answer = prompter.getBoundedInt("answer: ", 0, 1);
+		if (answer == 0) filters.add( new AverageGrayscaleFilter() );
+
 		return new GrayscaleToBinaryFilter(threshold);
 	}
 
@@ -317,7 +322,7 @@ public class FilterBuilder extends GenericJob {
 			int green = prompter.getBoundedInt("green: ", 0, 255);
 			System.out.println("Enter the value for blue intensity: (0-255)");
 			int blue = prompter.getBoundedInt("blue: ", 0, 255);
-			pixel = new Pixel(red, green, blue);
+			pixel = new Pixel(red, green, blue).clip();
 		} else pixel = new Pixel(0);
 
 		return new TranslateFilter(x, y, pixel);
