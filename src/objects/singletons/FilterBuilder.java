@@ -12,6 +12,7 @@ import objects.filters.binary.ORFilter;
 import objects.filters.binary.XORFilter;
 import objects.filters.brightness.BrightnessFilter;
 import objects.filters.color_depth_reduction.ColorDepthReductionFilter;
+import objects.filters.contrast.ContrastFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -121,6 +122,23 @@ public class FilterBuilder extends GenericJob {
 		return new ColorDepthReductionFilter(bits, msb == 1);
 	}
 
+	/** Interactive shell prompt to create a contrast filter */
+	private ContrastFilter createContrastFilter() {
+		int contrast = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("Please enter the desired contrast level: (0, 255):");
+			contrast = sc.nextInt();
+			
+			if (contrast > 255 || contrast < 0) {
+				System.out.println("Invalid value!");
+			}
+		} while (contrast > 255 || contrast < 0);
+		sc.close();
+
+		return new ContrastFilter(contrast);
+	}
 
 	/** Interactive shell sequence that prompts the user to build up filters */
 	private void build() {
