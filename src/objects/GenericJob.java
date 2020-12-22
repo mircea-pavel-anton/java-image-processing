@@ -12,5 +12,5 @@ public abstract class GenericJob {
 		return uID;
 	}
 
-	protected long getDuration() { return this.duration; }
+	public long getDuration() { return this.duration; }
 }
