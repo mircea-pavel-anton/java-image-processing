@@ -19,8 +19,8 @@ public class GrayLevelHistogram extends AbstractHistogramFilter {
 	}
 
 	@Override
-	public Image filter(Image[] image) {
-		generate(image[0].getPixels(), false);
+	public Image filter(Image image) {
+		generate(image.getPixels(), false);
 		int maxValue = Arrays.stream(grayLevelHistogram).max().getAsInt();
 		Pixel[][] histogram = new Pixel[width][height];
 		double xSize = (double)(width) / samples;

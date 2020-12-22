@@ -48,11 +48,11 @@ public class ColorDepthReductionFilter extends GenericFilter {
 	 }
 
 	@Override
-	public Image filter(Image[] image) {
-		Pixel[][] pixels = image[0].getPixels();
+	public Image filter(Image image) {
+		Pixel[][] pixels = image.getPixels();
 
-		for (int x = 0; x < image[0].getWidth(); x++) {
-			for (int y = 0; y < image[0].getHeight(); y++) {
+		for (int x = 0; x < image.getWidth(); x++) {
+			for (int y = 0; y < image.getHeight(); y++) {
 				pixels[x][y] = pixels[x][y].and(value);
 			}
 		}

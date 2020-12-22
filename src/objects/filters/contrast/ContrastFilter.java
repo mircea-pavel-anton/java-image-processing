@@ -12,8 +12,7 @@ public class ContrastFilter extends GenericFilter {
 	}
 
 	@Override
-	public Image filter(Image[] images) {
-		Image image = images[0];
+	public Image filter(Image image) {
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);

@@ -50,8 +50,7 @@ public class TranslateFilter extends GenericFilter {
 	 * @return -> the translated image
 	*/
 	@Override
-	public Image filter(Image[] images) {
-		Image image = images[0];
+	public Image filter(Image image) {
 		Pixel[][] translated = new Pixel[image.getWidth() + xDelta][image.getHeight() + yDelta];
 		
 		// Fill the gaps with the specified color

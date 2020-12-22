@@ -19,8 +19,8 @@ public class RedLevelHistogram extends AbstractHistogramFilter {
 	}
 
 	@Override
-	public Image filter(Image[] image) {
-		generate(image[0].getPixels(), true);
+	public Image filter(Image image) {
+		generate(image.getPixels(), true);
 		int maxValue = Arrays.stream(redLevelHistogram).max().getAsInt();
 		Pixel[][] histogram = new Pixel[width][height];
 		double xSize = (double)(width) / samples;

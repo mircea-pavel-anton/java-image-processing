@@ -42,12 +42,8 @@ public class ConvolutionFilter extends GenericFilter {
 	}
 
 	@Override
-	public Image filter(Image[] images) {
-		if (images.length < 1) {
-			throw new IllegalArgumentException();
-		} else {
-			return new Image( conv( images[0].getPixels() ) );
-		}
+	public Image filter(Image image) {
+		return new Image( conv( image.getPixels() ) );
 	}
 
 	@Override

@@ -105,8 +105,7 @@ public class RotateFilter extends GenericFilter {
 	 * @return -> the rotated image
 	 */
 	@Override
-	public Image filter(Image[] images) {
-		Image image = images[0];
+	public Image filter(Image image) {
 		Pixel[][] pixels = image.getPixels();
 		for (int i = 0; i < rotationCount; i++) {
 			pixels = (isClockwise) ? rotate90Clockwise(pixels) : rotate90CounterClockwise(pixels);

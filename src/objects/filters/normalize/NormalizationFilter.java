@@ -78,8 +78,7 @@ public class NormalizationFilter extends GenericFilter {
 	 * @return -> the normalized image
 	 */
 	@Override
-	public Image filter(Image[] images) {
-		Image image = images[0];
+	public Image filter(Image image) {
 		double[] average = getColorAverages(
 			image.getPixels(),
 			image.getWidth(),

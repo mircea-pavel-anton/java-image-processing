@@ -5,6 +5,11 @@ import objects.image.Image;
 import objects.image.Pixel;
 
 public abstract class AbstractBinaryFilter extends GenericFilter {
+	private Image lhsImage = null;
+	
+	/** "Caches" the second image */
+	protected void loadImage(Image image) { this.lhsImage = image; }
+
 	/** Checks whether or not the 2 images are matching in size */
 	private boolean imageSizeMatch(Image a, Image b) {
 		return a.getHeight() == b.getHeight() && a.getWidth() == b.getWidth();
@@ -30,19 +35,19 @@ public abstract class AbstractBinaryFilter extends GenericFilter {
 	 * @return -> the resulting image, after the binary operation
 	 */
 	@Override
-	public Image filter(Image[] images) {
-		if (images.length < 2 || !imageSizeMatch(images[0], images[1]) ) {
+	public Image filter(Image rhsImage) {
+		if (lhsImage == null || !imageSizeMatch(lhsImage, rhsImage)){
 			throw new IllegalArgumentException();
 		} else {
-			int width = images[0].getWidth();
-			int height = images[0].getHeight();
+			int width = rhsImage.getWidth();
+			int height = rhsImage.getHeight();
 			Pixel[][] pixels = new Pixel[width][height];
 
 			for (int x = 0; x < width; x++) {
 				for (int y = 0; y < height; y++) {
 					pixels[x][y] = binOp(
-						images[0].getPixelAt(x, y),
-						images[1].getPixelAt(x, y)
+						lhsImage.getPixelAt(x, y),
+						rhsImage.getPixelAt(x, y)
 					);
 				}
 			}
