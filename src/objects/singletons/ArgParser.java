@@ -9,7 +9,6 @@ public class ArgParser extends GenericJob{
 		"And then follow the on-screen prompts in order to choose your filters."
 	};
 
-
 	// Singleton Instance
 	private static ArgParser instance = null;
 

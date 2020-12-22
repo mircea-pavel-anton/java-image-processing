@@ -1,6 +1,7 @@
 package objects.filters.convolution.masks;
 
 public interface SobelMasks {
+	// vertical and horizontal kernels for the sobel operator
 	public static final double[][] VERTICAL_SOBEL_KERNEL = {
 		{-1, 0, 1},
 		{-2, 0, 2},

@@ -3,7 +3,7 @@ package objects.filters.zoom;
 import objects.image.Pixel;
 
 public class KTimesZoomFilter extends AbstractZoomFilter {
-
+	/** Constructor, ensures the zoom level is correct. Throws an exception otherwise */
 	public KTimesZoomFilter(int zoomLevel) {
 		if (zoomLevel > 0) {
 			this.zoomLevel = zoomLevel;
@@ -12,6 +12,22 @@ public class KTimesZoomFilter extends AbstractZoomFilter {
 		}
 	}
 
+	/** The actual zooming algorithm.
+	 *  How it works:
+	 * Let K be the zoom level:
+	 * 
+	 * for each adjacent pixel, we call the bigger value max and smaller min:
+	 * for i = 0 : K-1
+	 *   pixel[x*K+i+1][y*K] = min + (max - min) / K * i
+	 *   
+	 * The algorithm is then repeated, looping through each column
+	 * 
+	 * For a more detailed explanation, see:
+	 * https://www.tutorialspoint.com/dip/zooming_methods.htm
+	 * 
+	 * @param input -> the matrix we want to zoom
+	 * @return -> the zoomed matrix
+	 */
 	@Override
 	protected Pixel[][] zoom(Pixel[][] input) {
 		int oldWidth  = input.length;

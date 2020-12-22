@@ -12,14 +12,22 @@ public abstract class AbstractHistogramFilter extends GenericFilter {
 	protected int[] blueLevelHistogram;
 	protected int[] grayLevelHistogram;
 
+	/** Generates the 1d arrays containing the number of times each shade has been encountered
+	 * 
+	 * @param pixels -> the matrix representing the image
+	 * @param isRGB -> whether the image is grayscaled or not
+	 */
 	protected void generate(Pixel[][] pixels, boolean isRGB) {
 		int width  = pixels.length;
 		int height = pixels[0].length;
 
+		// for each pixel in the image
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				int index = 0;
 				if (isRGB) {
+					// set array[color_shade]++;
+					// for each color channel
 					index = (int) (pixels[x][y].getRed() / sampleSize);
 					redLevelHistogram[index]++;
 					
@@ -29,6 +37,8 @@ public abstract class AbstractHistogramFilter extends GenericFilter {
 					index = (int) (pixels[x][y].getBlue() / sampleSize);
 					blueLevelHistogram[index]++;
 				} else {
+					// if the image is grayscaled, all channels are equal
+					// We can just pick one at random
 					index = (int) (pixels[x][y].getRed() / sampleSize);
 					grayLevelHistogram[index]++;
 				}
@@ -36,6 +46,14 @@ public abstract class AbstractHistogramFilter extends GenericFilter {
 		}
 	}
 
+	/** Constructor
+	 * Initializes the 1d arrays accordingly, if the image is grayscaled or not
+	 * Sets the size of each sample, based on the number of samples required, such that
+	 * all 256 possible values are accounted for
+	 * 
+	 * @param samples -> the number of bars to be shown in the histogram (bar graph)
+	 * @param isRGB -> whether the image is grayscaled or not
+	 */
 	protected AbstractHistogramFilter(int samples, boolean isRGB) {
 		this.sampleSize = 256.0 / samples;
 		if (isRGB) {
@@ -55,6 +73,7 @@ public abstract class AbstractHistogramFilter extends GenericFilter {
 		}
 	}
 
+	/** Returns the type of filter. histogram, in this case */
 	@Override
 	public String getType() { return HISTOGRAM_FILTER; }
 }

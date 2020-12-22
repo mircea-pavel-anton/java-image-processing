@@ -1,6 +1,8 @@
 package objects.filters.convolution.masks;
 
 public interface BlurMasks {
+	// Some common kernels for the blur effect
+
 	public static final double[][] BOX_BLUR_3 = {
 		{ 1/9.0, 1/9.0, 1/9.0},
 		{ 1/9.0, 1/9.0, 1/9.0},

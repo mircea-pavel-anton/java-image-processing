@@ -19,18 +19,20 @@ public class Timer {
 		return instance;
 	}
 	
-	// Private constructor, hides the public default one
+	/** Private constructor, hides the public default one */
 	private Timer() {
 		jobStart = new HashMap<>();
 		jobEnd = new HashMap<>();
 	}
 
-	// Fields
-	// This hashmap will store a key-value pair, the key being the name of the job and the
-	// value being the time in millis at which it was started
+	/** This hashmap will store a key-value pair, the key being the name of the job and the
+	 * value being the time in millis at which it was started
+	 */
 	private HashMap<String, Long> jobStart;
-	// This hashmap will store a key-value pair, the key being the name of the job and the
-	// value being the time in millis at which it was ended
+
+	/** This hashmap will store a key-value pair, the key being the name of the job and the
+	 * value being the time in millis at which it was ended
+	 */
 	private HashMap<String, Long> jobEnd;
 
 	/** Adds a key-value pair into the jobStart hashmap, associating the current time in millis

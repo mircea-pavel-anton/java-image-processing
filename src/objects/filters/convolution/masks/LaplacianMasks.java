@@ -1,6 +1,7 @@
 package objects.filters.convolution.masks;
 
 public interface LaplacianMasks {
+	// The discrete approximations for the laplacian kernels
 	public static final double[][] LAPLACIAN_KERNEL1 = {
 		{ 0, -1 ,  0},
 		{-1,  4 , -1},

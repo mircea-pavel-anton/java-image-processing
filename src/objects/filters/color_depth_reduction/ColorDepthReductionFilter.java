@@ -5,6 +5,7 @@ import objects.image.Image;
 import objects.image.Pixel;
 
 public class ColorDepthReductionFilter extends GenericFilter {
+	// Values for the right hand side of the bitwise AND
 	private static final byte MSB1 = 0b1000000;
 	private static final byte MSB2 = 0b1100000;
 	private static final byte MSB3 = 0b1110000;
@@ -19,34 +20,30 @@ public class ColorDepthReductionFilter extends GenericFilter {
 	private static final byte LSB6 = 0b0111111;
 	private byte value;
 
+	/** Constructor
+	 * Selects the value used for the & operation, based on the number of bits we want to keep
+	 * and based on the direction (MSB to LSB or LSB to MSB)
+	 */
 	public ColorDepthReductionFilter(int bits, boolean isMSB) { 
 		switch (bits) {
-			case 0:
-				this.value = 0b00000000;
-				break;
-			case 1:
-				this.value = (isMSB) ? MSB1 : LSB1;
-				break;
-			case 2:
-				this.value = (isMSB) ? MSB2 : LSB2;
-				break;
-			case 3:
-				this.value = (isMSB) ? MSB3 : LSB3;
-				break;
-			case 4:
-				this.value = (isMSB) ? MSB4 : LSB4;
-				break;
-			case 5:
-				this.value = (isMSB) ? MSB5 : LSB5;
-				break;
-			case 6:
-				this.value = (isMSB) ? MSB6 : LSB6;
-				break;
-			default:
-				throw new IllegalArgumentException();
+			case 0: this.value = 0b00000000; break;
+			case 1: this.value = (isMSB) ? MSB1 : LSB1; break;
+			case 2: this.value = (isMSB) ? MSB2 : LSB2; break;
+			case 3: this.value = (isMSB) ? MSB3 : LSB3; break;
+			case 4: this.value = (isMSB) ? MSB4 : LSB4; break;
+			case 5: this.value = (isMSB) ? MSB5 : LSB5; break;
+			case 6: this.value = (isMSB) ? MSB6 : LSB6; break;
+			default: throw new IllegalArgumentException();
 		}
 	 }
 
+	/** Applies the color depth reduction filter on the given image
+	 * It performs a bitwise AND operation between each pixels color channel and the selected value
+	 * from the constructor
+	 * 
+	 * @param image -> the image to be processed
+	 * @return -> the processed image
+	 */
 	@Override
 	public Image filter(Image image) {
 		Pixel[][] pixels = image.getPixels();
@@ -60,6 +57,7 @@ public class ColorDepthReductionFilter extends GenericFilter {
 		return new Image(pixels);
 	}
 
+	/** Returns the type of filter. color-depth-reduction, in this case */
 	@Override
 	public String getType() { return COLOR_DEPTH_REDUCTION_FILTER; }
 }

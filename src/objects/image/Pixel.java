@@ -24,6 +24,8 @@ public class Pixel {
 		if (value < 0) return 0;
 		return value;
 	}
+	
+	/** Applies the limit function to each color channel individually */
 	public Pixel clip() {
 		red = limit(red);
 		green = limit(green);
@@ -53,7 +55,7 @@ public class Pixel {
 		blue = 0;
 	}
 
-	// Operators overload
+	// The following functions simulate the '*' operator
 	public Pixel multiply(int value) { return multiply((double)value); }
 	public Pixel multiply(float value) { return multiply((double)value); }
 	public Pixel multiply(double value) { return multiply(new Pixel(value)); }
@@ -64,7 +66,9 @@ public class Pixel {
 			this.blue * pixel.blue
 		);
 	}
-
+	
+	
+	// The following functions simulate the '/' operator
 	public Pixel divide(int value) { return multiply(1.0 / value); }
 	public Pixel divide(float value) { return multiply(1.0 / value); }
 	public Pixel divide(double value) { return multiply(1.0 / value); }
@@ -76,6 +80,7 @@ public class Pixel {
 		);
 	}
 
+	// The following functions simulate the '+' operator
 	public Pixel add(int value) { return add((double)value); }
 	public Pixel add(float value) { return add((double)value); }
 	public Pixel add(double value) {
@@ -93,6 +98,7 @@ public class Pixel {
 		);
 	}
 
+	// The following functions simulate the '-' operator
 	public Pixel subtract(int value) { return add(-1 * value); }
 	public Pixel subtract(float value) { return add(-1 * value); }
 	public Pixel subtract(double value) { return add(-1 * value); }
@@ -104,6 +110,7 @@ public class Pixel {
 		);
 	}
 
+	// Applies the log function to each channel individualle
 	public Pixel log() {
 		return new Pixel(
 			Math.log( red ),
@@ -111,6 +118,8 @@ public class Pixel {
 			Math.log( blue )
 		);
 	}
+
+	// Applies the pow(channel, exp) function to each channel individualle
 	public Pixel pow(double exp) {
 		return new Pixel(
 			Math.pow( red, exp ),
@@ -119,6 +128,7 @@ public class Pixel {
 		);
 	}
 
+	// Applies the bitwise AND operator between this and pixel
 	public Pixel and(Pixel pixel){
 		return new Pixel(
 			(int)this.getRed()   & (int)pixel.getRed(),
@@ -126,6 +136,8 @@ public class Pixel {
 			(int)this.getBlue()  & (int)pixel.getBlue()
 		);
 	}
+	
+	// Applies the bitwise AND operator between this and value
 	public Pixel and(int value){
 		return new Pixel(
 			(int)this.getRed()   & value,
@@ -134,6 +146,7 @@ public class Pixel {
 		);
 	}
 
+	// Applies the bitwise OR operator between this and pixel
 	public Pixel or(Pixel pixel){
 		return new Pixel(
 			(int)this.getRed()   | (int)pixel.getRed(),
@@ -141,6 +154,8 @@ public class Pixel {
 			(int)this.getBlue()  | (int)pixel.getBlue()
 		);
 	}
+	
+	// Applies the bitwise XOR operator between this and pixel
 	public Pixel xor(Pixel pixel){
 		return new Pixel(
 			(int)this.getRed()   ^ (int)pixel.getRed(),
@@ -149,7 +164,6 @@ public class Pixel {
 		);
 	}
 
-	public Pixel clone() {
-		return new Pixel( this.red, this.green, this.blue);
-	}
+	// Creates a new instance of Pixel, equal with this one, in terms of color channels
+	public Pixel clone() { return new Pixel( this.red, this.green, this.blue); }
 }

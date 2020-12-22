@@ -47,6 +47,7 @@ public class FilterBuilder extends GenericJob {
 	// Singleton Instance
 	private static FilterBuilder instance = null;
 
+	// An instance of the Prompter singleton
 	private Prompter prompter;
 
 	/** If no instance has been created yet, create one and return it, otherwise, return the

@@ -4,6 +4,12 @@ import objects.image.Pixel;
 
 public class ZeroOrderHoldZoomFilter extends AbstractZoomFilter {
 
+	/** The actual zooming algorithm.
+	 * For each 2 adjacent pixels, we place their half-sum in between
+	 * 
+	 * @param input -> the matrix to be zoomed
+	 * @return -> the zoomed matrix
+	 */
 	@Override
 	protected Pixel[][] zoom(Pixel[][] input) {
 		int oldWidth = input.length;
