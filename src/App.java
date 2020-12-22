@@ -1,35 +1,34 @@
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import objects.filters.GenericFilter;
-import objects.filters.NegativeFilter;
 import objects.image.Image;
 import objects.singletons.ArgParser;
+import objects.singletons.FilterBuilder;
 
 public class App {
-
 	public static void main(String[] args) {
 		ArgParser argParser = ArgParser.getInstance();
 		try {
 			argParser.parseArguments(args);
+			File input = argParser.getInputFiles();
+			File output = argParser.getOutputFile();
+
+			if (input != null && output != null) {
+				FilterBuilder fBuilder = FilterBuilder.getInstance();
+				fBuilder.run();
+				ArrayList<GenericFilter> filters = fBuilder.getFilters();
+				Image temp = new Image(input.getAbsolutePath());
+	
+				for (int i = 0; i < filters.size(); i++) {
+					temp = filters.get(i).apply(temp);
+				}
+				ImageIO.write(temp.toBufferedImage(), "bmp", output);
+				
+			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-
-		System.out.println("Args:");
-		System.out.println(argParser.getInputFilePath());
-		System.out.println(argParser.getOutputFilePath());
-		System.out.println(argParser.getFilterType());
-
-		try {
-			Image image = new Image(argParser.getInputFilePath());
-			GenericFilter filter = new NegativeFilter();
-			Image filteredImage = filter.filter(image);
-			ImageIO.write(filteredImage.toBufferedImage(), "bmp", new File(argParser.getOutputFilePath()));
-		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
