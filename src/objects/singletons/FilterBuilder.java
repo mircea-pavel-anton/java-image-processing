@@ -35,6 +35,7 @@ import objects.filters.histogram.RedLevelHistogram;
 import objects.filters.invert.NegativeFilter;
 import objects.filters.mirror.MirrorFilter;
 import objects.filters.normalize.NormalizationFilter;
+import objects.filters.rotate.RotateFilter;
 import objects.image.Image;
 
 public class FilterBuilder extends GenericJob {
@@ -360,6 +361,34 @@ public class FilterBuilder extends GenericJob {
 			if (selection > 0 && selection < 4) {
 				sc.close();
 				return new MirrorFilter(selection);
+			}
+		} while (true);
+	}
+
+	/** Interactive shell prompt to create a rotate filter */
+	private RotateFilter createRotationFilter() {
+		int selection = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("How many degrees do you want to rotate?:");
+			System.out.println(" 1. -270");
+			System.out.println(" 2. -180");
+			System.out.println(" 3. -90");
+			System.out.println(" 4.  90");
+			System.out.println(" 5.  180");
+			System.out.println(" 6.  270");
+			selection = sc.nextInt();
+
+			if (selection > 0 && selection < 7) sc.close();
+			switch (selection) {
+				case 1: return new RotateFilter(3, false);
+				case 2: return new RotateFilter(2, false);
+				case 3: return new RotateFilter(1, false);
+				case 4: return new RotateFilter(1, true);
+				case 5: return new RotateFilter(2, true);
+				case 6: return new RotateFilter(3, true);
+				default: System.out.println("Invalid selection"); break;
 			}
 		} while (true);
 	}
