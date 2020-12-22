@@ -36,7 +36,9 @@ import objects.filters.invert.NegativeFilter;
 import objects.filters.mirror.MirrorFilter;
 import objects.filters.normalize.NormalizationFilter;
 import objects.filters.rotate.RotateFilter;
+import objects.filters.translate.TranslateFilter;
 import objects.image.Image;
+import objects.image.Pixel;
 
 public class FilterBuilder extends GenericJob {
 	// Singleton Instance
@@ -396,21 +398,59 @@ public class FilterBuilder extends GenericJob {
 	/** "Interactive" (lol) shell prompt to create a normalization filter */
 	private NormalizationFilter createNormalizationFilter() { return new NormalizationFilter(); }
 
+	/** Interactive shell prompt to create a translation filter */
+	private TranslateFilter createTranslationFilter() {
+		int x = 0;
+		int y = 0;
+		Scanner sc = new Scanner(System.in);
+
+		do {
+			System.out.println("How many pixel do you want to translate to the right? (0-inf)");
+			x = sc.nextInt();
+		} while (x <= 0);
+		do {
+			System.out.println("How many pixel do you want to translate down? (0-inf)");
+			y = sc.nextInt();
+		} while (y <= 0);
+
+		System.out.println("Do you want a custom fill color for the blank pixels? (default is BLACK) [y/N]");
+		Pixel pixel = new Pixel(0);
+		if (sc.nextLine().equalsIgnoreCase("Y")) {
+			int red = 0; int green = 0; int blue = 0;
+			do {
+				System.out.println("Enter the value for red intensity: (0-255)");
+				red = sc.nextInt();
+			} while (red < 0 && red > 255);
+			do {
+				System.out.println("Enter the value for green intensity: (0-255)");
+				green = sc.nextInt();
+			} while (green < 0 && green > 255);
+			do {
+				System.out.println("Enter the value for blue intensity: (0-255)");
+				blue = sc.nextInt();
+			} while (blue < 0 && blue > 255);
+			pixel = new Pixel(red, green, blue);
+		}
+
+		sc.close();
+		return new TranslateFilter(x, y, pixel);
+	}
+
 	/** Interactive shell sequence that prompts the user to build up filters */
 	private void build() {
 		int selection = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
 			System.out.println("Please select the operation you wish to apply: ");
-			System.out.println("1.  Binary operation between two images");
-			System.out.println("2.  Brightness adjustment");
-			System.out.println("3.  Color Depth Reduction");
-			System.out.println("4.  Contrast Adjustment");
-			System.out.println("5.  Convolution Masks");
-			System.out.println("6.  Gray Level Adjustment");
-			System.out.println("7.  Color to Grayscale conversion");
-			System.out.println("8.  Grayscale to binary image conversion");
-			System.out.println("9.  Histogram generation");
+			System.out.println(" 1. Binary operation between two images");
+			System.out.println(" 2. Brightness adjustment");
+			System.out.println(" 3. Color Depth Reduction");
+			System.out.println(" 4. Contrast Adjustment");
+			System.out.println(" 5. Convolution Masks");
+			System.out.println(" 6. Gray Level Adjustment");
+			System.out.println(" 7. Color to Grayscale conversion");
+			System.out.println(" 8. Grayscale to binary image conversion");
+			System.out.println(" 9. Histogram generation");
 			System.out.println("10. Color inversion");
 			System.out.println("11. Image mirroring");
 			System.out.println("12. Color normalization");
