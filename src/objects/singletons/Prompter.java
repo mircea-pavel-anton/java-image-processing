@@ -1,5 +1,7 @@
 package objects.singletons;
 
+import java.util.Scanner;
+
 public class Prompter {
 	// Singleton Instance
 	private static Prompter instance = null;
@@ -16,6 +18,43 @@ public class Prompter {
 		return instance;
 	}
 
+    private Scanner sc;
 	// Constructor
-	private Prompter() { } // private constructor, meant to hide the default, public one
+	private Prompter() { sc = new Scanner(System.in); } // private constructor, meant to hide the default, public one
+    public void close() { sc.close(); }
+
+	public int promptForBoundedInt(String prompt, int leftBound, int rightBound) {
+		int input = 0;
+		do {
+			System.out.print(prompt);
+			input = sc.nextInt();
+		} while (input <= leftBound && input >= rightBound);
+
+		return input;
+	}
+	public double promptForDouble(String prompt) {
+		double input = 0;
+		System.out.print(prompt);
+		input = sc.nextDouble();
+		return input;
+
+	}
+	public double promptForBoundedDouble(String prompt, double leftBound, double rightBound) {
+		double input = 0;
+		do {
+			System.out.print(prompt);
+			if (sc.hasNext()) input = sc.nextDouble();
+			sc.nextLine();
+		} while (input <= leftBound && input >= rightBound);
+		return input;
+
+	}
+	public String promptForString(String prompt) {
+		String input = "";
+		do {
+			System.out.print(prompt);
+			input = sc.nextLine();
+		} while (input.length() == 0);
+		return input;
+	}
 }
