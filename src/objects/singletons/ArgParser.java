@@ -1,8 +1,6 @@
 package objects.singletons;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import objects.GenericJob;
@@ -32,11 +30,11 @@ public class ArgParser extends GenericJob{
 	private ArgParser() { } // private constructor, meant to hide the default, public one
 
 	// Arguments that can be parsed
-	private List<File> inputFiles = new ArrayList<File>(); // path to the images that will be filtered
+	private File inputFile = null; // path to the image that will be filtered
 	private File outputFile = null; // path to the processed image
 
 	// Getters
-	public List<File> getInputFiles() { return inputFiles; }
+	public File getInputFiles() { return inputFile; }
 	public File getOutputFile() { return outputFile; }
 
 	// Setters
@@ -48,8 +46,8 @@ public class ArgParser extends GenericJob{
 	 *   - if a directory has been given, instead of a file
 	 *   - if read access is denied to the file
 	 */
-	public void addInputFilePath(String inputFilePath, boolean force) throws Exception {
-		if (this.inputFiles.size() != 0 || force == false) {
+	public void setInputFilePath(String inputFilePath, boolean force) throws Exception {
+		if (this.inputFile != null || force == false) {
 			throw new Exception("Input file has already been set.");
 		}
 		File inputFile = new File(inputFilePath);
@@ -57,7 +55,7 @@ public class ArgParser extends GenericJob{
 		if (inputFile.exists()) {
 			if (inputFile.isFile()) {
 				if (inputFile.canRead()) {
-					this.inputFiles.add( inputFile );
+					this.inputFile = inputFile;
 				} else {
 					throw new Exception("Cannot read from file: '" + inputFilePath + "'");
 				}
@@ -129,9 +127,9 @@ public class ArgParser extends GenericJob{
 			case 2:
 				for (int i = 0; i < 2; i++) {
 					if (args[i].contains("--input=")) {
-						addInputFilePath( args[i].substring(8), false );
+						setInputFilePath( args[i].substring(8), false );
 					} else if (args[i].contains("-i=")) {
-						addInputFilePath( args[i].substring(3), false );
+						setInputFilePath( args[i].substring(3), false );
 					} else if (args[i].contains("--output=")) {
 						setOutputFilePath( args[i].substring(9) );
 					} else if (args[i].contains("-o=")) {
