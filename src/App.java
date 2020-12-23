@@ -60,11 +60,10 @@ public class App {
 					);
 				}
 				System.out.println("-----------------\n");
-				return;
 			}
 		} catch (final Exception e) {
 			System.out.println(e.getMessage());
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 }
