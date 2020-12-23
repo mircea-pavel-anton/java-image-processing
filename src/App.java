@@ -20,7 +20,8 @@ public class App {
 			// if the argument was '-h' or '--help'
 			// otherwise, some exception would have been thrown
 			if (input != null && output != null) {
-				Image temp = BmpIO.getInstance().read();
+				BmpIO bmpIO = BmpIO.getInstance();
+				Image temp = bmpIO.read();
 
 				FilterBuilder fBuilder = FilterBuilder.getInstance();
 				fBuilder.run(); // run the builder
@@ -36,13 +37,14 @@ public class App {
 				}
 
 				// After all the processing was done, save the image in bmp format
-				BmpIO.getInstance().write(temp, output.getAbsolutePath());
+				bmpIO.write(temp, output.getAbsolutePath());
 
 				// Show a summary of the execution process
 				System.out.println("\nProcessing finished!");
 				System.out.println("You can find the processed image at: " + output.getAbsolutePath() );
 				System.out.println("\n\n---- SUMMARY ----");
 				System.out.println("Parsing the input arguments took: " + argParser.getDuration() + " ms");
+				System.out.println("Parsing the input file took: " + bmpIO.getDuration() + " ms");
 				System.out.println("Building the filter list took: " + fBuilder.getDuration() + " ms");
 				for (int i = 0; i < filters.size(); i++) {
 					System.out.println("Applying the " + filters.get(i).getType() + " filter took: " + filters.get(i).getDuration() + " ms");
