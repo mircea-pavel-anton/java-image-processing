@@ -12,14 +12,14 @@ public class App {
 		try {
 			// Get singleton instances
 			final ArgParser argParser = ArgParser.getInstance();
-			final BmpIO bmpIO = BmpIO.getInstance();
 			final FilterBuilder fBuilder = FilterBuilder.getInstance();
-
+			
 			// Parse input arguments
 			argParser.parseArguments(args);
 			final File input = argParser.getInputFiles();
 			final File output = argParser.getOutputFile();
-
+			
+			final BmpIO bmpIO = BmpIO.getInstance();
 			// If the input and output files have been set after parsing the arguments
 			// The only way the code can reach this point and fail this condition, is
 			// if the argument was '-h' or '--help'
