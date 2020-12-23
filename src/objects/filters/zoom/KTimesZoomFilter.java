@@ -52,7 +52,8 @@ public class KTimesZoomFilter extends AbstractZoomFilter {
 							(Math.min(greenX, greenY)
 									+ (Math.max(greenX, greenY) - Math.min(greenX, greenY)) / zoomLevel) * (i + 1),
 							(Math.min(blueX, blueY) + (Math.max(blueX, blueY) - Math.min(blueX, blueY)) / zoomLevel)
-									* (i + 1));
+									* (i + 1)
+					).clip();
 				}
 
 			}
