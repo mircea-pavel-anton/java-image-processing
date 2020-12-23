@@ -67,25 +67,6 @@ public class Consumer implements Runnable {
 	 */
 	private void FSM_State3() {
 		bitmapImage.getPixelAt(x, y).setRed(character);
-		if (bitmapImage.getBytesPerPixel() == 3)
-			increment();
-	}
-
-	/**
-	 * The fourth state of the modelled FSM that handles parsing the Raw Pixel Data
-	 * The FSM models a nested for loop, that executes one iteration per extraction
-	 * from the BlockingQueue
-	 * 
-	 * The fourth state handles the fourth byte, which represents the intensity
-	 * value for the alpha channel, so we set the pixel's alpha value to be equal to
-	 * character
-	 * 
-	 * This state is only used in the case of a 32-bit BMP file If we reach this
-	 * state, we need to increment our matrix coordinates to move to the next pixel,
-	 * since state 3 did not pass the condition for incrementing
-	 */
-	private void FSM_State4() {
-		bitmapImage.getPixelAt(x, y).setAlpha(character);
 		increment();
 	}
 
@@ -348,26 +329,8 @@ public class Consumer implements Runnable {
 				if (isDone)
 					return; // if we run out of pixels
 				break;
-			case 4:
-				switch (position % 4) {
-					case 1:
-						FSM_State1();
-						break; // read blue
-					case 2:
-						FSM_State2();
-						break; // read green
-					case 3:
-						FSM_State3();
-						break; // read red
-					case 4:
-						FSM_State4();
-						break; // read alpha & increment
-				}
-				if (isDone)
-					return; // if we run out of pixels
-				break;
-			default: // if the image is 16bpp or less
-				throw new Exception("BmpIO only supports 24 and 32 bit BMP images");
+			default: // if the image is 32bpp, 16bpp or less
+				throw new Exception("BmpIO only supports 24-bit RGB BMP images");
 		}
 	}
 
