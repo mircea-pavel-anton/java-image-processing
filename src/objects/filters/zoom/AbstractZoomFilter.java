@@ -31,5 +31,5 @@ public abstract class AbstractZoomFilter extends GenericFilter {
 	
 	/** Returns a human-readable filter description */
 	@Override
-	public String describe() { return toString() + "( " + zoomLevel + ") "; }
+	public String describe() { return toString() + "( " + zoomLevel + " )"; }
 }
