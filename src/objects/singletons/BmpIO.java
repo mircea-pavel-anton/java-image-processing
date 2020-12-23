@@ -8,12 +8,13 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.imageio.ImageIO;
 
+import objects.GenericJob;
 import objects.image.BitmapImage;
 import objects.image.Image;
 import objects.runnables.Consumer;
 import objects.runnables.Producer;
 
-public class BmpIO {
+public class BmpIO extends GenericJob {
 	// Singleton Instance
 	private static BmpIO instance = null;
 
@@ -44,18 +45,20 @@ public class BmpIO {
 	private BlockingQueue<Integer> queue;
 
 
-	public BitmapImage read() throws FileNotFoundException, InterruptedException {
+	public BitmapImage read() throws Exception {
 		BitmapImage image = new BitmapImage();
 		Producer producer = new Producer(path, queue);
 		Consumer consumer = new Consumer(queue, image);
 
 		Thread producerThread = new Thread(producer);
 		Thread consumerThread = new Thread(consumer);
+		Timer.getInstance().startJob( "BmpIO" + getUID() );
 		producerThread.start();
 		consumerThread.start();
-
+		
 		producerThread.join();
 		consumerThread.join();
+		duration = Timer.getInstance().stopJob( "BmpIO" + getUID() );
 		return image;
 	}
 
