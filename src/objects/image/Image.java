@@ -8,9 +8,9 @@ import javax.imageio.ImageIO;
 
 public class Image {
 	// Fields
-	private int width; 			// image width in no. of pixels
-	private int height;			// image height in no. of pixels
-	private Pixel[][] pixels;	// image itself, as pixel matrixx
+	protected int width; 			// image width in no. of pixels
+	protected int height;			// image height in no. of pixels
+	protected Pixel[][] pixels;	// image itself, as pixel matrixx
 
 	// Getters
 	public int getWidth() { return width; }
@@ -76,4 +76,6 @@ public class Image {
 			}
 		}
 	}
+
+	public Image() { width = 0; height = 0; pixels = null; }
 }
