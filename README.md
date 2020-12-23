@@ -34,20 +34,19 @@ A Simple Image Manipulation Program (SIMP) written in Java as a university assig
     - Power-Law
     - Laplacian Operator via Convolution Mask
 
-# How to use
+## How to use
 To see the `help` screen, run `simp -h` or `simp --help`
-``` bash
-Usage: simp --input=/path/to/file --output=/path/to/file2
-And then follow the on-screen prompts in order to choose your filters.
-```
+
+!["Help command"](./res/readme/simp_help.png)
 
 To specify an input file, use the `-i` or `--input` flag. To specify an output file, use the `-o` or `--output` flag.
 
-``` bash
-simp -i=path/to/file -o=path/to/file
-# OR
-simp --input=path/to/file --output=path/to/file
-```
+Only after specifyin the `input` and `output` flags, in either long or short form, the program will start parsing the input file.  
+If the file already exists, the program will ask if you wish to overwrite it.
+
+!["Usage showcase"](./res/readme/simp_usage.gif)
+
+You can check out the [before](./res/input/doggo.bmp) and [after](./res/output/doggo_out.bmp).
 
 ## The homework requirements
 

@@ -24,6 +24,3 @@ hs_err_pid*
 
 # visual studio code config folder
 .vscode
-
-# output produced from test images
-res/output
