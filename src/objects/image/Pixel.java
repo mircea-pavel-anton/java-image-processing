@@ -5,17 +5,20 @@ public class Pixel {
 	private double red;
 	private double green;
 	private double blue;
+	private double alpha;
 
 	// Getters
 	public double getRed() { return red; }
 	public double getGreen() { return green; }
 	public double getBlue()	{ return blue; }
+	public double getAlpha() { return alpha; }
 	public int getRGB() { return ((int)red << 16 | (int)green << 8 | (int)blue); }
 
 	// Setters
 	public void setRed(double red) { this.red = red; }
 	public void setGreen(double green) { this.green = green; }
 	public void setBlue(double blue) { this.blue = blue; }
+	public void setAlpha(double alpha) { this.alpha = alpha; }
 	
 
 	/** Ensures the given value stays within the bounds of a 1 byte int */
