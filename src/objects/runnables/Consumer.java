@@ -341,18 +341,31 @@ public class Consumer implements Runnable {
 				try {
 					charCount++;
 					character = bQueue.take();
-					System.out.println("Char count: " + charCount);
 
 					if (charCount > 0 && charCount < 15) {
+						if (charCount == 1) System.out.print("Parsing BMP Header...");
 						readBmpHeader();
+						if (charCount == 14) {
+							System.out.println("Done");
+							Thread.sleep(1000);
+						}
 					} else if (charCount < 55) {
+						if (charCount == 15) System.out.print("Parsing DIB Header...");
 						readDibHeader();
+						if (charCount == 54) {
+							System.out.println("Done");
+							Thread.sleep(1000);
+						}
 					} else {
+						if (charCount == 55) System.out.print("Parsing Raw Pixel Data...");
 						readRawPixelData();
 					}
 
-					if (isDone)
+					if (isDone) {
+						System.out.println("Done");
+						Thread.sleep(1000);
 						return;
+					}
 
 					notify();
 				} catch (final InterruptedException e) {

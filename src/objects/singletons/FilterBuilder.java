@@ -433,6 +433,10 @@ public class FilterBuilder extends GenericJob {
 	private void build() throws Exception {
 		int selection = 0;
 		do {
+			// Clear the screen
+			System.out.print("\033[H\033[2J");
+			System.out.flush();
+
 			System.out.println("Current filter stack: ");
 			for (int i = 0; i < filters.size(); i++) {
 				System.out.println("  - " + filters.get(i).describe());
@@ -509,7 +513,6 @@ public class FilterBuilder extends GenericJob {
 					System.out.println("Invalid selection.");
 					break;
 			}
-
 		} while (selection != 16);
 	}
 

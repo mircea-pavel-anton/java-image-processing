@@ -19,12 +19,12 @@ public class App {
 			final File input = argParser.getInputFiles();
 			final File output = argParser.getOutputFile();
 			
-			final BmpIO bmpIO = BmpIO.getInstance();
 			// If the input and output files have been set after parsing the arguments
 			// The only way the code can reach this point and fail this condition, is
 			// if the argument was '-h' or '--help'
 			// otherwise, some exception would have been thrown
 			if (input != null && output != null) {
+				final BmpIO bmpIO = BmpIO.getInstance();
 				// Read the input image into a Image object
 				Image temp = bmpIO.read();
 
