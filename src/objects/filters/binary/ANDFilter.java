@@ -5,5 +5,10 @@ import objects.image.Pixel;
 public class ANDFilter extends AbstractBinaryFilter {
 	/** Performs a bitwise AND operation between each color channel of pixels a and b */
 	@Override
-	protected Pixel binOp(Pixel a, Pixel b) { return a.and(b); }
+	protected Pixel binOp(final Pixel a, final Pixel b) {
+		return a.and(b);
+	}
+
+	@Override
+	public String toString() { return AND_FILTER; }
 }

@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 public class Producer implements Runnable {
-	private BlockingQueue<Integer> bQueue;
-	private BufferedInputStream inputStream;
+	private final BlockingQueue<Integer> bQueue;
+	private final BufferedInputStream inputStream;
 
-	public Producer(String path, BlockingQueue<Integer> queue) throws FileNotFoundException {
+	public Producer(final String path, final BlockingQueue<Integer> queue) throws FileNotFoundException {
 		this.bQueue = queue;
-		this.inputStream = new BufferedInputStream( new FileInputStream( new File(path) ) );
+		this.inputStream = new BufferedInputStream(new FileInputStream(new File(path)));
 	}
 
 	@Override
@@ -21,27 +21,27 @@ public class Producer implements Runnable {
 		int character = -2;
 
 		while (true) {
-			synchronized(this) {
+			synchronized (this) {
 				try {
-					// if the queue is full, wait for the consumer to read from it 
+					// if the queue is full, wait for the consumer to read from it
 					// some more
-					while (bQueue.size() == 100) wait();
-		
+					while (bQueue.size() == 100)
+						wait();
+
 					// Keep reading from th file, until either the queue is full, or we reached EOF
 					while ((character = inputStream.read()) != -1 && bQueue.size() <= 100) {
 						bQueue.put(character);
 						notify();
 					}
 
-					if (character == -1) {
-						return;
-					}
-				} catch (IOException e) {
+					// If we reached EOF
+					if (character == -1) { return; }
+				} catch (final IOException e) {
 					System.out.println("Encountered some error reading the file!");
 					e.printStackTrace();
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					System.out.println("Such is life... All must die eventually...");
-					// e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		}

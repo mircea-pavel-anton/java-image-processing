@@ -20,12 +20,12 @@ public class NormalizationFilter extends GenericFilter {
 	 * @return -> the normalized image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(final Image image) {
 		// Set each pixel = (pixel - average) / standard_deviation
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				Pixel pixel = image.getPixelAt(x, y);
-				double total = pixel.getRed() + pixel.getBlue() + pixel.getGreen();
+				final double total = pixel.getRed() + pixel.getBlue() + pixel.getGreen();
 				pixel = pixel.divide(total).multiply(255).clip();
 				image.setPixelAt(x, y, pixel);
 			}
@@ -33,9 +33,12 @@ public class NormalizationFilter extends GenericFilter {
 
 		return image;
 	}
-
-	/** Returns the type of filter. normalize, in this case */
+	
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return NORMALIZATION_FILTER; }
+	public String describe() { return toString() + "()"; }
+
+	@Override
+	public String toString() { return NORMALIZATION_FILTER; }
 	
 }

@@ -24,29 +24,45 @@ public class ColorDepthReductionFilter extends GenericFilter {
 	 * Selects the value used for the & operation, based on the number of bits we want to keep
 	 * and based on the direction (MSB to LSB or LSB to MSB)
 	 */
-	public ColorDepthReductionFilter(int bits, boolean isMSB) { 
+	public ColorDepthReductionFilter(final int bits, final boolean isMSB) {
 		switch (bits) {
-			case 0: this.value = 0b00000000; break;
-			case 1: this.value = (isMSB) ? MSB1 : LSB1; break;
-			case 2: this.value = (isMSB) ? MSB2 : LSB2; break;
-			case 3: this.value = (isMSB) ? MSB3 : LSB3; break;
-			case 4: this.value = (isMSB) ? MSB4 : LSB4; break;
-			case 5: this.value = (isMSB) ? MSB5 : LSB5; break;
-			case 6: this.value = (isMSB) ? MSB6 : LSB6; break;
-			default: throw new IllegalArgumentException();
+			case 0:
+				this.value = 0b00000000;
+				break;
+			case 1:
+				this.value = (isMSB) ? MSB1 : LSB1;
+				break;
+			case 2:
+				this.value = (isMSB) ? MSB2 : LSB2;
+				break;
+			case 3:
+				this.value = (isMSB) ? MSB3 : LSB3;
+				break;
+			case 4:
+				this.value = (isMSB) ? MSB4 : LSB4;
+				break;
+			case 5:
+				this.value = (isMSB) ? MSB5 : LSB5;
+				break;
+			case 6:
+				this.value = (isMSB) ? MSB6 : LSB6;
+				break;
+			default:
+				throw new IllegalArgumentException();
 		}
-	 }
+	}
 
-	/** Applies the color depth reduction filter on the given image
-	 * It performs a bitwise AND operation between each pixels color channel and the selected value
-	 * from the constructor
+	/**
+	 * Applies the color depth reduction filter on the given image It performs a
+	 * bitwise AND operation between each pixels color channel and the selected
+	 * value from the constructor
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the processed image
 	 */
 	@Override
-	public Image filter(Image image) {
-		Pixel[][] pixels = image.getPixels();
+	public Image filter(final Image image) {
+		final Pixel[][] pixels = image.getPixels();
 
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
@@ -57,7 +73,11 @@ public class ColorDepthReductionFilter extends GenericFilter {
 		return new Image(pixels);
 	}
 
-	/** Returns the type of filter. color-depth-reduction, in this case */
+
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return COLOR_DEPTH_REDUCTION_FILTER; }
+	public String describe() { return toString() + "( " + value + " )"; }
+
+	@Override
+	public String toString() { return COLOR_DEPTH_REDUCTION_FILTER; }
 }

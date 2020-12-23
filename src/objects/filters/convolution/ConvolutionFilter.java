@@ -6,12 +6,18 @@ import objects.image.Pixel;
 
 public class ConvolutionFilter extends GenericFilter {
 	// The kernel used for matrix convolution
-	double[][] kernel;
+	private final double[][] kernel;
+	private final String maskName;
+
 
 	/** Constructor, sets the convolution kernel */
-	public ConvolutionFilter(double[][] kernel) { this.kernel = kernel; }
+	public ConvolutionFilter(final double[][] kernel, final String maskName) {
+		this.kernel = kernel;
+		this.maskName = maskName;
+	}
 
-	/** Effectively calculates the convolution, by centering the matrix on each pixel
+	/**
+	 * Effectively calculates the convolution, by centering the matrix on each pixel
 	 * and performing the multiplications and sums
 	 * 
 	 * For a better explanation on what matrix convolution is, see:
@@ -20,35 +26,36 @@ public class ConvolutionFilter extends GenericFilter {
 	 * @param input -> the pixel matrix, lhs of the convolution
 	 * @return -> the result of the convolution
 	 */
-	private Pixel[][] conv(Pixel[][] input) {
-		int width = input.length;
-		int height = input[0].length;
-		Pixel[][] output = new Pixel[width][height];
-		int kernelSize = kernel.length;
+	private Pixel[][] conv(final Pixel[][] input) {
+		final int width = input.length;
+		final int height = input[0].length;
+		final Pixel[][] output = new Pixel[width][height];
+		final int kernelSize = kernel.length;
 
 		// loop through each pixel
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				Pixel newPixel = new Pixel(0);
 
-				// If the kernel can't be centered on the pixel without getting out of the matrix
+				// If the kernel can't be centered on the pixel without getting out of the
+				// matrix
 				if (x == 0 || y == 0 || x == width - 1 || y == height - 1) {
 					newPixel = input[x][y].clone();
 				} else {
 					// This for basically puts the center of the kernel and the current pixel
 					// on the same x and y value, and then loops through them, performing the
 					// matrix[x][y] * kernel[x][y] and adding up all the values
-					for (int i = -1 * kernelSize/2; i <= kernelSize / 2; i++) {
+					for (int i = -1 * kernelSize / 2; i <= kernelSize / 2; i++) {
 						for (int j = -1 * kernelSize / 2; j <= kernelSize / 2; j++) {
 							if (x + i >= 0 && x + i < width && y + j >= 0 && y + j < height) {
 								// the pixel from the matrix
-								Pixel pixel = input[x+i][y+j].clone();
+								final Pixel pixel = input[x + i][y + j].clone();
 
 								// the value from the kernel
-								double coef = kernel[kernelSize/2 - i][kernelSize/2 - j];
+								final double coef = kernel[kernelSize / 2 - i][kernelSize / 2 - j];
 
 								// pixel = pixel * value
-								newPixel = newPixel.add( pixel.multiply(coef) );
+								newPixel = newPixel.add(pixel.multiply(coef));
 							}
 						}
 					}
@@ -61,17 +68,21 @@ public class ConvolutionFilter extends GenericFilter {
 		return output;
 	}
 
-	/** Applies the convolution mask on the given image
+	/**
+	 * Applies the convolution mask on the given image
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the processed image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(final Image image) {
 		return new Image( conv( image.getPixels() ) );
 	}
 
-	/** Returns the type of filter. convolution, in this case */
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return CONVOLUTION_FILTER; }
+	public String describe() { return toString() + "( " + maskName + " )"; }
+	
+	@Override
+	public String toString() { return CONVOLUTION_FILTER; }
 }

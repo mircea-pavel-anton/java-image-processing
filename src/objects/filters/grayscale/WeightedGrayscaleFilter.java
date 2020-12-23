@@ -21,11 +21,18 @@ public class WeightedGrayscaleFilter extends AbstractGrayscaleFilter {
 	 * @return -> the grayscaled pixel
 	 */
 	@Override
-	protected Pixel toGrayscale(Pixel input) {
+	protected Pixel toGrayscale(final Pixel input) {
 		double grayscale = 0;
 		grayscale += input.getRed()   * RED_BIAS;
 		grayscale += input.getGreen() * GREEN_BIAS;
 		grayscale += input.getBlue()  * BLUE_BIAS;
 		return new Pixel(grayscale);
-	}	
+	}
+
+	/** Returns a human-readable filter description */
+	@Override
+	public String describe() { return toString() + "()"; }
+
+	@Override
+	public String toString() { return WEIGHTED_GRAYSCALE_FILTER; }
 }

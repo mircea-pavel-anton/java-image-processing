@@ -8,28 +8,32 @@ import objects.singletons.BmpIO;
 import objects.singletons.FilterBuilder;
 
 public class App {
-	public static void main(String[] args) {
-		ArgParser argParser = ArgParser.getInstance();
+	public static void main(final String[] args) {
 		try {
+			// Get singleton instances
+			final ArgParser argParser = ArgParser.getInstance();
+			final BmpIO bmpIO = BmpIO.getInstance();
+			final FilterBuilder fBuilder = FilterBuilder.getInstance();
+
+			// Parse input arguments
 			argParser.parseArguments(args);
-			File input = argParser.getInputFiles();
-			File output = argParser.getOutputFile();
+			final File input = argParser.getInputFiles();
+			final File output = argParser.getOutputFile();
 
 			// If the input and output files have been set after parsing the arguments
 			// The only way the code can reach this point and fail this condition, is
 			// if the argument was '-h' or '--help'
 			// otherwise, some exception would have been thrown
 			if (input != null && output != null) {
-				BmpIO bmpIO = BmpIO.getInstance();
+				// Read the input image into a Image object
 				Image temp = bmpIO.read();
 
-				FilterBuilder fBuilder = FilterBuilder.getInstance();
-				fBuilder.run(); // run the builder
+				// Run the interactive builder
+				fBuilder.run();
 
 				// Retrieve the filter list from the builder
-				ArrayList<GenericFilter> filters = fBuilder.getFilters();
+				final ArrayList<GenericFilter> filters = fBuilder.getFilters();
 
-	
 				// Run each filter from the list, in order
 				// Supply each filter with the image produced by the previous one
 				for (int i = 0; i < filters.size(); i++) {
@@ -41,18 +45,24 @@ public class App {
 
 				// Show a summary of the execution process
 				System.out.println("\nProcessing finished!");
-				System.out.println("You can find the processed image at: " + output.getAbsolutePath() );
+				System.out.println("You can find the processed image at: " + output.getAbsolutePath());
 				System.out.println("\n\n---- SUMMARY ----");
 				System.out.println("Parsing the input arguments took: " + argParser.getDuration() + " ms");
 				System.out.println("Parsing the input file took: " + bmpIO.getDuration() + " ms");
 				System.out.println("Building the filter list took: " + fBuilder.getDuration() + " ms");
 				for (int i = 0; i < filters.size(); i++) {
-					System.out.println("Applying the " + filters.get(i).getType() + " filter took: " + filters.get(i).getDuration() + " ms");
+					System.out.println(
+						"Applying the " + 
+						filters.get(i).describe() + 
+						" filter took: " + 
+						filters.get(i).getDuration() + 
+						" ms"
+					);
 				}
 				System.out.println("-----------------\n");
 				return;
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.println(e.getMessage());
 			// e.printStackTrace();
 		}

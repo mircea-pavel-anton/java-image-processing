@@ -1,6 +1,7 @@
 package objects.image;
 
 public class BitmapImage extends Image{
+	/** Encapsulation for the BMP Header */
 	private class BmpHeader {
 		private String fileType;
 		private int fileSize;
@@ -8,6 +9,8 @@ public class BitmapImage extends Image{
 		private String reserved02;
 		private int pixelDataOffset;
 	}
+	
+	/** Encapsulation for the DIB Header */
 	private class DibHeader {
 		private int headerSize;
 		private int imageWidth;
@@ -22,8 +25,10 @@ public class BitmapImage extends Image{
 		protected int importantColors;
 	}
 	
-	private BmpHeader bmpHeader;
-	private DibHeader dibHeader;
+	// File Headers
+	private final BmpHeader bmpHeader;
+	private final DibHeader dibHeader;
+	// Pixel array is provided by the inheritance from Image
 
 	/** Constructor */
 	public BitmapImage() {
@@ -33,30 +38,72 @@ public class BitmapImage extends Image{
 	}
 
 	// BMP Header Setters
-	public void setFileType(String value) { bmpHeader.fileType = value; }
-	public void setFileSize(int value) { bmpHeader.fileSize = value; }
-	public void setReserved1(String value) { bmpHeader.reserved01 = value; }
-	public void setReserved2(String value) { bmpHeader.reserved02 = value; }
-	public void setPixelDataOffset(int value) { bmpHeader.pixelDataOffset = value; }
+	public void setFileType(final String value) {
+		bmpHeader.fileType = value;
+	}
+
+	public void setFileSize(final int value) {
+		bmpHeader.fileSize = value;
+	}
+
+	public void setReserved1(final String value) {
+		bmpHeader.reserved01 = value;
+	}
+
+	public void setReserved2(final String value) {
+		bmpHeader.reserved02 = value;
+	}
+
+	public void setPixelDataOffset(final int value) {
+		bmpHeader.pixelDataOffset = value;
+	}
 
 	// DIB Header Setters
-	public void setHeaderSize(int value) { dibHeader.headerSize = value; }
-	public void setImageWidth(int value) { 
+	public void setHeaderSize(final int value) {
+		dibHeader.headerSize = value;
+	}
+
+	public void setImageWidth(final int value) {
 		dibHeader.imageWidth = value;
 		this.width = value;
 	}
-	public void setImageHeight(int value) {
+
+	public void setImageHeight(final int value) {
 		dibHeader.imageHeight = value;
 		this.height = value;
 	}
-	public void setPlanes(int value) { dibHeader.planes = value; }
-	public void setBitsPerPixel(int value) { dibHeader.bitsPerPixel = value; }
-	public void setCompression(int value) { dibHeader.compression = value; }
-	public void setImageSize(int value) { dibHeader.imageSize = value; }
-	public void setXpixelsPerMeter(int value) { dibHeader.XpixelsPerMeter = value; }
-	public void setYpixelsPerMeter(int value) { dibHeader.YpixelsPerMeter = value; }
-	public void setTotalColors(int value) { dibHeader.totalColors = value; }
-	public void setImportantColors(int value) { dibHeader.importantColors = value; }
+
+	public void setPlanes(final int value) {
+		dibHeader.planes = value;
+	}
+
+	public void setBitsPerPixel(final int value) {
+		dibHeader.bitsPerPixel = value;
+	}
+
+	public void setCompression(final int value) {
+		dibHeader.compression = value;
+	}
+
+	public void setImageSize(final int value) {
+		dibHeader.imageSize = value;
+	}
+
+	public void setXpixelsPerMeter(final int value) {
+		dibHeader.XpixelsPerMeter = value;
+	}
+
+	public void setYpixelsPerMeter(final int value) {
+		dibHeader.YpixelsPerMeter = value;
+	}
+
+	public void setTotalColors(final int value) {
+		dibHeader.totalColors = value;
+	}
+
+	public void setImportantColors(final int value) {
+		dibHeader.importantColors = value;
+	}
 
 
 	// BMP Header Getters

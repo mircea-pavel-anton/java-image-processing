@@ -25,11 +25,11 @@ public abstract class AbstractZoomFilter extends GenericFilter {
 	 * @return -> the zoomed image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(final Image image) {
 		return new Image( zoom(image.getPixels()) );
 	}
-
-	/** Returns the type of filter. zoom, in this case */
+	
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return ZOOM_FILTER; }
+	public String describe() { return toString() + "( " + zoomLevel + ") "; }
 }

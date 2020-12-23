@@ -25,8 +25,8 @@ public abstract class AbstractGrayscaleFilter extends GenericFilter {
 	 * @return -> the grayscale image
 	 */
 	@Override
-	public Image filter(Image image) {
-		Pixel[][] pixels = image.getPixels();
+	public Image filter(final Image image) {
+		final Pixel[][] pixels = image.getPixels();
 
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
@@ -36,8 +36,4 @@ public abstract class AbstractGrayscaleFilter extends GenericFilter {
 		
 		return new Image(pixels);
 	}
-
-	/** Returns the type of filter. grayscale, in this case */
-	@Override
-	public String getType() { return GRAYSCALE_FILTER; }
 }

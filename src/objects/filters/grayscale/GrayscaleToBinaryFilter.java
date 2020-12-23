@@ -13,7 +13,7 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 	 * 
 	 * @param threshold -> the threshold for converting colors to either blac or white
 	 */
-	public GrayscaleToBinaryFilter(int threshold) {
+	public GrayscaleToBinaryFilter(final int threshold) {
 		if (threshold < 256 && threshold >= 0) {
 			this.threshold = threshold;
 		} else {
@@ -21,20 +21,19 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 		}
 	}
 
-	/** Applies the grayscale to binary filter, by comparing all pixels to the threshold
-	 * if (pixel < threshold for any color channel)
-	 *     pixel = black
-	 * else
-	 *     pixel = white
+	/**
+	 * Applies the grayscale to binary filter, by comparing all pixels to the
+	 * threshold if (pixel < threshold for any color channel) pixel = black else
+	 * pixel = white
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the binary image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(final Image image) {
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
-				Pixel pixel = image.getPixelAt(x, y);
+				final Pixel pixel = image.getPixelAt(x, y);
 				if (pixel.getBlue() < threshold) {
 					image.setPixelAt(x, y, new Pixel(0));
 				} else {
@@ -44,9 +43,12 @@ public class GrayscaleToBinaryFilter extends GenericFilter {
 		}
 		return image;
 	}
-	
-	/** Returns the type of filter. grayscale-to-binary, in this case */
+
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return GRAYSCALE_TO_BINARY_FILTER; }
+	public String describe() { return toString() + "( " + threshold + " )"; }
+
+	@Override
+	public String toString() { return GRAYSCALE_TO_BINARY_FILTER; }
 	
 }

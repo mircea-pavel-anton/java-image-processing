@@ -48,10 +48,10 @@ public class FilterBuilder extends GenericJob {
 	private static FilterBuilder instance = null;
 
 	// An instance of the Prompter singleton
-	private Prompter prompter;
+	private final Prompter prompter;
 
-	/** If no instance has been created yet, create one and return it, otherwise, return the
-	 * already existing one
+	/** If no instance has been created yet, create one and return it, otherwise,
+	 * return the already existing one
 	 * 
 	 * @return an instance of ArgParser
 	 */
@@ -68,10 +68,12 @@ public class FilterBuilder extends GenericJob {
 	} // private constructor, meant to hide the default, public one
 
 	// Fields
-	private ArrayList<GenericFilter> filters = new ArrayList<GenericFilter>();
+	private final ArrayList<GenericFilter> filters = new ArrayList<GenericFilter>();
 
 	/** Getter for the list of filters */
-	public ArrayList<GenericFilter> getFilters() { return this.filters; }
+	public ArrayList<GenericFilter> getFilters() {
+		return this.filters;
+	}
 
 	// Custom filter builders
 	/** Interactive shell prompt to create a binary filter */
@@ -81,19 +83,25 @@ public class FilterBuilder extends GenericJob {
 		System.out.println("1. AND filter");
 		System.out.println("2. OR filter");
 		System.out.println("3. XOR filter");
-		int selection = prompter.getBoundedInt("selection: ", 1, 3);
+		final int selection = prompter.getBoundedInt("selection: ", 1, 3);
 
-		switch (selection) { 
-			case 1: filter = new ANDFilter(); break;
-			case 2: filter = new ORFilter(); break;
-			case 3: filter = new XORFilter(); break;
+		switch (selection) {
+			case 1:
+				filter = new ANDFilter();
+				break;
+			case 2:
+				filter = new ORFilter();
+				break;
+			case 3:
+				filter = new XORFilter();
+				break;
 		}
 
 		File testFile;
 		do {
 			System.out.println("Binary filters require a second input image for the operation to take place.");
 			System.out.println("Please enter the path to the second image: ");
-			String path = prompter.getString("path: ");
+			final String path = prompter.getString("path: ");
 			testFile = new File(path);
 		} while (!testFile.exists() || testFile.isDirectory() || !testFile.canRead());
 
@@ -104,19 +112,19 @@ public class FilterBuilder extends GenericJob {
 	/** Interactive shell prompt to create a brightness filter */
 	private BrightnessFilter createBrightnessFilter() {
 		System.out.println("Please enter the brightness adjustment value (-255, 255):");
-		int brightness = prompter.getBoundedInt("brightness: ", -255, 255);
+		final int brightness = prompter.getBoundedInt("brightness: ", -255, 255);
 		return new BrightnessFilter(brightness);
 	}
 
 	/** Interactive shell prompt to create a color depth reduction filter */
 	private ColorDepthReductionFilter createColorDepthReductionFilter() {
 		System.out.println("Please enter the number of bits you wish to keep: (0-7)");
-		int bits = prompter.getBoundedInt("bits: ", 0, 7);
-		
+		final int bits = prompter.getBoundedInt("bits: ", 0, 7);
+
 		System.out.println("Please choose the type of truncation: ");
 		System.out.println("1. Truncate starting from MSB");
 		System.out.println("2. Truncate starting from LSB");
-		int msb = prompter.getBoundedInt("selection: ", 1, 2);
+		final int msb = prompter.getBoundedInt("selection: ", 1, 2);
 
 		return new ColorDepthReductionFilter(bits, msb == 1);
 	}
@@ -124,7 +132,7 @@ public class FilterBuilder extends GenericJob {
 	/** Interactive shell prompt to create a contrast filter */
 	private ContrastFilter createContrastFilter() {
 		System.out.println("Please enter the desired contrast level: (0, 255):");
-		int contrast = prompter.getBoundedInt("contrast level: ", 0, 255);
+		final int contrast = prompter.getBoundedInt("contrast level: ", 0, 255);
 		return new ContrastFilter(contrast);
 	}
 
@@ -143,23 +151,49 @@ public class FilterBuilder extends GenericJob {
 		System.out.println("10. 3x3 Horizontal Prewitt Mask");
 		System.out.println("11. 3x3 Vertical Sobel Mask");
 		System.out.println("12. 3x3 Horizontal Soble Mask");
-		int selection = prompter.getBoundedInt("selection: ", 1, 12);
-		
+		final int selection = prompter.getBoundedInt("selection: ", 1, 12);
+
 		ConvolutionFilter filter = null;
-		switch (selection) { 
-			case  1: filter = new ConvolutionFilter(BlurMasks.BOX_BLUR_3); break;
-			case  2: filter = new ConvolutionFilter(BlurMasks.BOX_BLUR_5); break;
-			case  3: filter = new ConvolutionFilter(BlurMasks.GAUSSIAN_BLUR_3); break;
-			case  4: filter = new ConvolutionFilter(BlurMasks.GAUSSIAN_BLUR_5); break;
-			case  5: filter = new ConvolutionFilter(SharpenMasks.SHARPEN_KERNEL_3_LOW); break;
-			case  6: filter = new ConvolutionFilter(SharpenMasks.SHARPEN_KERNEL_3_HIGH); break;
-			case  7: filter = new ConvolutionFilter(LaplacianMasks.LAPLACIAN_KERNEL1); break;
-			case  8: filter = new ConvolutionFilter(LaplacianMasks.LAPLACIAN_KERNEL2); break;
-			case  9: filter = new ConvolutionFilter(PrewittMasks.VERTICAL_PREWITT_KERNEL); break;
-			case 10: filter = new ConvolutionFilter(PrewittMasks.HORIZONTAL_PREWITT_KERNEL); break;
-			case 11: filter = new ConvolutionFilter(SobelMasks.VERTICAL_SOBEL_KERNEL); break;
-			case 12: filter = new ConvolutionFilter(SobelMasks.HORIZONTAL_SOBEL_KERNEL); break;
-			default: System.out.println("Invalid selection"); break;
+		switch (selection) {
+			case 1:
+				filter = new ConvolutionFilter(BlurMasks.BOX_BLUR_3_KERNEL, BlurMasks.BOX_BLUR_3_NAME);
+				break;
+			case 2:
+				filter = new ConvolutionFilter(BlurMasks.BOX_BLUR_5_KERNEL, BlurMasks.BOX_BLUR_5_NAME);
+				break;
+			case 3:
+				filter = new ConvolutionFilter(BlurMasks.GAUSSIAN_BLUR_3_KERNEL, BlurMasks.GAUSSIAN_BLUR_3_NAME);
+				break;
+			case 4:
+				filter = new ConvolutionFilter(BlurMasks.GAUSSIAN_BLUR_5_KERNEL, BlurMasks.GAUSSIAN_BLUR_5_NAME);
+				break;
+			case 5:
+				filter = new ConvolutionFilter(SharpenMasks.SHARPEN_KERNEL_LOW, SharpenMasks.SHARPEN_LOW_NAME);
+				break;
+			case 6:
+				filter = new ConvolutionFilter(SharpenMasks.SHARPEN_KERNEL_HIGH, SharpenMasks.SHARPEN_HIGH_NAME);
+				break;
+			case 7:
+				filter = new ConvolutionFilter(LaplacianMasks.LAPLACIAN_1_KERNEL, LaplacianMasks.LAPLACIAN_1_NAME);
+				break;
+			case 8:
+				filter = new ConvolutionFilter(LaplacianMasks.LAPLACIAN_2_KERNEL, LaplacianMasks.LAPLACIAN_2_NAME);
+				break;
+			case 9:
+				filter = new ConvolutionFilter(PrewittMasks.VERTICAL_PREWITT_KERNEL, PrewittMasks.VERTICAL_PREWITT_NAME);
+				break;
+			case 10:
+				filter = new ConvolutionFilter(PrewittMasks.HORIZONTAL_PREWITT_KERNEL, PrewittMasks.HORIZONTAL_PREWITT_NAME);
+				break;
+			case 11:
+				filter = new ConvolutionFilter(SobelMasks.VERTICAL_SOBEL_KERNEL, SobelMasks.VERTICAL_SOBEL_NAME);
+				break;
+			case 12:
+				filter = new ConvolutionFilter(SobelMasks.HORIZONTAL_SOBEL_KERNEL, SobelMasks.HORIZONTAL_SOBEL_NAME);
+				break;
+			default:
+				System.out.println("Invalid selection");
+				break;
 		}
 
 		return filter;
@@ -171,29 +205,35 @@ public class FilterBuilder extends GenericJob {
 		System.out.println(" 1. Linear (negative, not identity)");
 		System.out.println(" 2. Logarithmic");
 		System.out.println(" 3. Power Law");
-		int selection = prompter.getBoundedInt("selection: ", 1, 3);
-		
+		final int selection = prompter.getBoundedInt("selection: ", 1, 3);
+
 		AbstractGrayLevelFilter filter = null;
-		switch (selection) { 
-			case  1: filter = new LinearGrayLevelFilter(); break;
-			case  2:
-				System.out.println("The logarithmic filter requires you to input the value for 'c' to use in the formula: (1,255)");
+		switch (selection) {
+			case 1:
+				filter = new LinearGrayLevelFilter();
+				break;
+			case 2:
+				System.out.println(
+						"The logarithmic filter requires you to input the value for 'c' to use in the formula: (1,255)");
 				System.out.println("s = c * log(r+1), where:");
 				System.out.println("s = the new color");
 				System.out.println("r = the old color");
-				double c = prompter.getDouble("c: ");
+				final double c = prompter.getDouble("c: ");
 				filter = new LogarithmicGrayLevelFilter(c);
 				break;
-			case  3:
-				System.out.println("The power law filter requires you to input the values for 'y' and 'c' to use in the formula:");
+			case 3:
+				System.out.println(
+						"The power law filter requires you to input the values for 'y' and 'c' to use in the formula:");
 				System.out.println("s = c * r^y, where:");
 				System.out.println("s = the new color");
 				System.out.println("r = the old color");
-				double y = prompter.getDouble("y: ");
-				double k = prompter.getDouble("c: ");
+				final double y = prompter.getDouble("y: ");
+				final double k = prompter.getDouble("c: ");
 				filter = new PowerLawGrayLevelFilter(y, k);
 				break;
-			default: System.out.println("Invalid selection"); break;
+			default:
+				System.out.println("Invalid selection");
+				break;
 		}
 
 		return filter;
@@ -204,26 +244,33 @@ public class FilterBuilder extends GenericJob {
 		System.out.println("The available grayscale methods are:");
 		System.out.println(" 1. Average method");
 		System.out.println(" 2. Weighted (Luminosity method)");
-		int selection = prompter.getBoundedInt("selection: ", 1, 2);
-		
+		final int selection = prompter.getBoundedInt("selection: ", 1, 2);
+
 		AbstractGrayscaleFilter filter = null;
-		switch (selection) { 
-			case  1: filter = new AverageGrayscaleFilter(); break;
-			case  2: filter = new WeightedGrayscaleFilter(); break;
-			default: System.out.println("Invalid selection"); break;
+		switch (selection) {
+			case 1:
+				filter = new AverageGrayscaleFilter();
+				break;
+			case 2:
+				filter = new WeightedGrayscaleFilter();
+				break;
+			default:
+				System.out.println("Invalid selection");
+				break;
 		}
-		
+
 		return filter;
 	}
 
 	/** Interactive shell prompt to create a grayscale-to-binary filter */
 	private GrayscaleToBinaryFilter createGrayscaleToBinaryFilter() {
 		System.out.println("Please enter the threshold: (0, 255):");
-		int threshold = prompter.getBoundedInt("threshold: ", 0, 255);
+		final int threshold = prompter.getBoundedInt("threshold: ", 0, 255);
 
 		System.out.println("Is the image grayscaled already? [Y=1/N=0]");
-		int answer = prompter.getBoundedInt("answer: ", 0, 1);
-		if (answer == 0) filters.add( new AverageGrayscaleFilter() );
+		final int answer = prompter.getBoundedInt("answer: ", 0, 1);
+		if (answer == 0)
+			filters.add(new AverageGrayscaleFilter());
 
 		return new GrayscaleToBinaryFilter(threshold);
 	}
@@ -235,25 +282,31 @@ public class FilterBuilder extends GenericJob {
 		System.out.println(" 2. Green level histogram");
 		System.out.println(" 3. Blue level histogram");
 		System.out.println(" 4. Gray Level Histogram");
-		int selection = prompter.getBoundedInt("selection: ", 1, 4);
-		
+		final int selection = prompter.getBoundedInt("selection: ", 1, 4);
+
 		System.out.println("Please enter the number of samples: (1, 255):");
-		int samples = prompter.getBoundedInt("samples: ", 1, 255);
+		final int samples = prompter.getBoundedInt("samples: ", 1, 255);
 
 		System.out.println("Please enter the output image width in pixels");
-		int width = prompter.getBoundedInt("width: ", 1, 10000);
-		
+		final int width = prompter.getBoundedInt("width: ", 1, 10000);
+
 		System.out.println("Please enter the output image height in pixels");
-		int height = prompter.getBoundedInt("height: ", 1, 10000);
+		final int height = prompter.getBoundedInt("height: ", 1, 10000);
 
 		AbstractHistogramFilter filter = null;
-		switch (selection) { 
-			case  1: filter = new RedLevelHistogram(width, height, samples); break;
-			case  2: filter = new GreenLevelHistogram(width, height, samples); break;
-			case  3: filter = new BlueLevelHistogram(width, height, samples); break;
-			case  4: 
+		switch (selection) {
+			case 1:
+				filter = new RedLevelHistogram(width, height, samples);
+				break;
+			case 2:
+				filter = new GreenLevelHistogram(width, height, samples);
+				break;
+			case 3:
+				filter = new BlueLevelHistogram(width, height, samples);
+				break;
+			case 4:
 				System.out.println("Is the input image already grayscaled? [Y=1/N=0]");
-				boolean isGrayscale = prompter.getBoundedInt("is grayscale: ", 0, 1) == 1;
+				final boolean isGrayscale = prompter.getBoundedInt("is grayscale: ", 0, 1) == 1;
 				if (!isGrayscale) // make image grayscale if it is not already
 					filters.add(new AverageGrayscaleFilter());
 				filter = new GrayLevelHistogram(width, height, samples);
@@ -265,7 +318,9 @@ public class FilterBuilder extends GenericJob {
 	}
 
 	/** "Interactive" (lol) shell prompt to create a negative filter */
-	private NegativeFilter createNegativeFilter() { return new NegativeFilter(); }
+	private NegativeFilter createNegativeFilter() {
+		return new NegativeFilter();
+	}
 
 	/** Interactive shell prompt to create a mirror filter */
 	private MirrorFilter createMirrorFilter() {
@@ -273,7 +328,7 @@ public class FilterBuilder extends GenericJob {
 		System.out.println(" 1. Ox");
 		System.out.println(" 2. Oy");
 		System.out.println(" 3. Both");
-		int selection = prompter.getBoundedInt("selection: ", 1, 3);
+		final int selection = prompter.getBoundedInt("selection: ", 1, 3);
 		return new MirrorFilter(selection);
 	}
 
@@ -286,45 +341,60 @@ public class FilterBuilder extends GenericJob {
 		System.out.println(" 4.  90");
 		System.out.println(" 5.  180");
 		System.out.println(" 6.  270");
-		int selection = prompter.getBoundedInt("selection: ", 1, 6);
+		final int selection = prompter.getBoundedInt("selection: ", 1, 6);
 
 		RotateFilter filter = null;
 		switch (selection) {
-			case 1: filter = new RotateFilter(3, false); break;
-			case 2: filter = new RotateFilter(2, false); break;
-			case 3: filter = new RotateFilter(1, false); break;
-			case 4: filter = new RotateFilter(1, true); break;
-			case 5: filter = new RotateFilter(2, true); break;
-			case 6: filter = new RotateFilter(3, true); break;
+			case 1:
+				filter = new RotateFilter(3, false);
+				break;
+			case 2:
+				filter = new RotateFilter(2, false);
+				break;
+			case 3:
+				filter = new RotateFilter(1, false);
+				break;
+			case 4:
+				filter = new RotateFilter(1, true);
+				break;
+			case 5:
+				filter = new RotateFilter(2, true);
+				break;
+			case 6:
+				filter = new RotateFilter(3, true);
+				break;
 		}
 
 		return filter;
 	}
 
 	/** "Interactive" (lol) shell prompt to create a normalization filter */
-	private NormalizationFilter createNormalizationFilter() { return new NormalizationFilter(); }
+	private NormalizationFilter createNormalizationFilter() {
+		return new NormalizationFilter();
+	}
 
 	/** Interactive shell prompt to create a translation filter */
 	private TranslateFilter createTranslationFilter() {
 		System.out.println("How many pixel do you want to translate to the right? (0-inf)");
-		int x = prompter.getBoundedInt("delta x: ", 0, 10000);
+		final int x = prompter.getBoundedInt("delta x: ", 0, 10000);
 
 		System.out.println("How many pixel do you want to translate down? (0-inf)");
-		int y = prompter.getBoundedInt("delta x: ", 0, 10000);
+		final int y = prompter.getBoundedInt("delta x: ", 0, 10000);
 
 		System.out.println("Do you want a custom fill color for the blank pixels? (default is BLACK) [Y=1/N=0]");
 		Pixel pixel = null;
-		boolean answer = prompter.getBoundedInt("create custom color?: ", 0, 1) == 1;
+		final boolean answer = prompter.getBoundedInt("create custom color?: ", 0, 1) == 1;
 
 		if (answer) {
 			System.out.println("Enter the value for red intensity: (0-255)");
-			int red = prompter.getBoundedInt("red: ", 0, 255);
+			final int red = prompter.getBoundedInt("red: ", 0, 255);
 			System.out.println("Enter the value for green intensity: (0-255)");
-			int green = prompter.getBoundedInt("green: ", 0, 255);
+			final int green = prompter.getBoundedInt("green: ", 0, 255);
 			System.out.println("Enter the value for blue intensity: (0-255)");
-			int blue = prompter.getBoundedInt("blue: ", 0, 255);
+			final int blue = prompter.getBoundedInt("blue: ", 0, 255);
 			pixel = new Pixel(red, green, blue).clip();
-		} else pixel = new Pixel(0);
+		} else
+			pixel = new Pixel(0);
 
 		return new TranslateFilter(x, y, pixel);
 	}
@@ -335,19 +405,25 @@ public class FilterBuilder extends GenericJob {
 		System.out.println("1. Pixel replication");
 		System.out.println("2. Zero order Hold (zooms to 2x size)");
 		System.out.println("3. K-Times Zooming");
-		int selection = prompter.getBoundedInt("selection: ", 1, 3);
-		
+		final int selection = prompter.getBoundedInt("selection: ", 1, 3);
+
 		int zoomLevel = 0;
 		if (selection == 1 || selection == 3) {
 			System.out.println("How many times do you wish to enlarge the image? (2-inf)");
 			zoomLevel = prompter.getBoundedInt("zoom level: ", 2, 1000);
 		}
-		
+
 		AbstractZoomFilter filter = null;
 		switch (selection) {
-			case 1: filter = new PixelReplicationZoomFilter(zoomLevel); break;
-			case 2: filter = new ZeroOrderHoldZoomFilter(); break;
-			case 3: filter = new KTimesZoomFilter(zoomLevel); break;
+			case 1:
+				filter = new PixelReplicationZoomFilter(zoomLevel);
+				break;
+			case 2:
+				filter = new ZeroOrderHoldZoomFilter();
+				break;
+			case 3:
+				filter = new KTimesZoomFilter(zoomLevel);
+				break;
 		}
 
 		return filter;
@@ -359,7 +435,7 @@ public class FilterBuilder extends GenericJob {
 		do {
 			System.out.println("Current filter stack: ");
 			for (int i = 0; i < filters.size(); i++) {
-				System.out.println("  - " + filters.get(i).getType());
+				System.out.println("  - " + filters.get(i).describe());
 			}
 
 			System.out.println("Please select the operation you wish to add to the stack: ");
@@ -382,23 +458,54 @@ public class FilterBuilder extends GenericJob {
 			selection = prompter.getBoundedInt("operation: ", 1, 16);
 
 			switch (selection) {
-				case  1: filters.add( createBinaryFilter() ); break;
-				case  2: filters.add( createBrightnessFilter() ); break;
-				case  3: filters.add( createColorDepthReductionFilter() ); break;
-				case  4: filters.add( createContrastFilter() ); break;
-				case  5: filters.add( createConvolutionFilter() ); break;
-				case  6: filters.add( createGrayLevelFilter() ); break;
-				case  7: filters.add( createGrayscaleFilter() ); break;
-				case  8: filters.add( createGrayscaleToBinaryFilter() ); break;
-				case  9: filters.add( createHistogramFilter() ); break;
-				case 10: filters.add( createNegativeFilter() ); break;
-				case 11: filters.add( createMirrorFilter() ); break;
-				case 12: filters.add( createNormalizationFilter() ); break;
-				case 13: filters.add( createRotationFilter() ); break;
-				case 14: filters.add( createTranslationFilter() ); break;
-				case 15: filters.add( createZoomFilter() ); break;
-				case 16: break;
-				default: 
+				case 1:
+					filters.add(createBinaryFilter());
+					break;
+				case 2:
+					filters.add(createBrightnessFilter());
+					break;
+				case 3:
+					filters.add(createColorDepthReductionFilter());
+					break;
+				case 4:
+					filters.add(createContrastFilter());
+					break;
+				case 5:
+					filters.add(createConvolutionFilter());
+					break;
+				case 6:
+					filters.add(createGrayLevelFilter());
+					break;
+				case 7:
+					filters.add(createGrayscaleFilter());
+					break;
+				case 8:
+					filters.add(createGrayscaleToBinaryFilter());
+					break;
+				case 9:
+					filters.add(createHistogramFilter());
+					break;
+				case 10:
+					filters.add(createNegativeFilter());
+					break;
+				case 11:
+					filters.add(createMirrorFilter());
+					break;
+				case 12:
+					filters.add(createNormalizationFilter());
+					break;
+				case 13:
+					filters.add(createRotationFilter());
+					break;
+				case 14:
+					filters.add(createTranslationFilter());
+					break;
+				case 15:
+					filters.add(createZoomFilter());
+					break;
+				case 16:
+					break;
+				default:
 					System.out.println("Invalid selection.");
 					break;
 			}
@@ -406,15 +513,19 @@ public class FilterBuilder extends GenericJob {
 		} while (selection != 16);
 	}
 
-	/** A wrapper for the @build function that implements the Timer singleton to track execution
-	 * duration
+	/**
+	 * A wrapper for the @build function that implements the Timer singleton to
+	 * track execution duration
 	 * 
 	 * @throws Exception -> rethrows all exceptions
 	 */
 	public void run() throws Exception {
-		Timer timer = Timer.getInstance();
+		final Timer timer = Timer.getInstance();
 		timer.startJob(String.valueOf(uID));
 		build();
 		duration = timer.stopJob(String.valueOf(uID));
 	}
+
+	@Override
+	public String toString() { return "Interactive filter stack builder"; }
 }

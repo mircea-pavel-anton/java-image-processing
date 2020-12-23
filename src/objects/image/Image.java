@@ -8,25 +8,30 @@ import javax.imageio.ImageIO;
 
 public class Image {
 	// Fields
-	protected int width; 			// image width in no. of pixels
-	protected int height;			// image height in no. of pixels
+	protected int width; 		// image width in no. of pixels
+	protected int height;		// image height in no. of pixels
 	protected Pixel[][] pixels;	// image itself, as pixel matrixx
 
 	// Getters
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 	public Pixel[][] getPixels() { return pixels; }
-	public Pixel getPixelAt(int lin, int col) { return pixels[lin][col]; }
+	public Pixel getPixelAt(final int lin, final int col) {
+		return pixels[lin][col];
+	}
 
 	// Setters
-	public void setPixelAt(int lin, int col, Pixel pixel) { pixels[lin][col] = pixel; }
+	public void setPixelAt(final int lin, final int col, final Pixel pixel) {
+		pixels[lin][col] = pixel;
+	}
 
-	/** Converts an Image object to a BufferedImage object
+	/**
+	 * Converts an Image object to a BufferedImage object
 	 * 
 	 * @return = the Image in BufferedImage format
 	 */
 	public BufferedImage toBufferedImage() {
-		BufferedImage buffImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		final BufferedImage buffImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		for (int xPixel = 0; xPixel < width; xPixel++) {
 			for (int yPixel = 0; yPixel < height; yPixel++) {
@@ -38,24 +43,26 @@ public class Image {
 	}
 
 	// Constructors
-	/** Creates a new Image object from an existing matrix of pixels
+	/**
+	 * Creates a new Image object from an existing matrix of pixels
 	 * 
 	 * @param pixels = the matrix of pixels
 	 */
-	public Image(Pixel[][] pixels) {
+	public Image(final Pixel[][] pixels) {
 		this.pixels = pixels.clone();
 		this.width = this.pixels.length;
 		this.height = this.pixels[0].length;
 	}
 
-	/** Creates a new Image object by parsing the image at the given path on disk.
+	/**
+	 * Creates a new Image object by parsing the image at the given path on disk.
 	 * 
 	 * @param path = the path to the image that will be read
 	 * @throws IOException rethrows the exceptions from ImageIO.read()
 	 */
-	public Image(String path) throws IOException{
+	public Image(final String path) throws IOException {
 		// Read image from disk
-		BufferedImage image = ImageIO.read( new FileInputStream(path) );
+		final BufferedImage image = ImageIO.read(new FileInputStream(path));
 
 		// Get image dimensions
 		width = image.getWidth();
@@ -67,7 +74,7 @@ public class Image {
 		// Loop through all pixels and extract rgb values
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				int rgb = image.getRGB(i, j);
+				final int rgb = image.getRGB(i, j);
 				pixels[i][j] = new Pixel(
 					(rgb>>16)&0xff,
 					(rgb>>8)&0xff,

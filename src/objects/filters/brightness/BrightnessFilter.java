@@ -7,17 +7,20 @@ public class BrightnessFilter extends GenericFilter {
 	private int brightness = 0;
 
 	// Constructor
-	public BrightnessFilter(int brightness) { this.brightness = brightness; }
+	public BrightnessFilter(final int brightness) {
+		this.brightness = brightness;
+	}
 
-	/** Applies a brightness filter by adding the given brightness value to each color channel
-	 * of each pixel.
-	 * Basically, each pixel = 255 + pixel, for each color channel
+	/**
+	 * Applies a brightness filter by adding the given brightness value to each
+	 * color channel of each pixel. Basically, each pixel = 255 + pixel, for each
+	 * color channel
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the processed image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(final Image image) {
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				image.setPixelAt(
@@ -32,5 +35,9 @@ public class BrightnessFilter extends GenericFilter {
 
 	/** Returns the type of filter. brightness, in this case */
 	@Override
-	public String getType() { return BRIGHTNESS_FILTER; }
+	public String describe() { return toString() + "( " + brightness + " )"; }
+
+	@Override
+	public String toString() { return BRIGHTNESS_FILTER; }
+
 }

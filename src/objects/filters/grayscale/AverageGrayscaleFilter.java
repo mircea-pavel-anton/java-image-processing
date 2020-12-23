@@ -14,11 +14,18 @@ public class AverageGrayscaleFilter extends AbstractGrayscaleFilter {
 	 * @return -> the grayscaled pixel
 	 */
 	@Override
-	protected Pixel toGrayscale(Pixel input) {
+	protected Pixel toGrayscale(final Pixel input) {
 		double grayscale = 0;
 		grayscale += input.getRed()   / 3;
 		grayscale += input.getGreen() / 3;
 		grayscale += input.getBlue()  / 3;
 		return new Pixel(grayscale);
 	}
+
+	/** Returns a human-readable filter description */
+	@Override
+	public String describe() { return toString() + "()"; }
+
+	@Override
+	public String toString() { return AVERAGE_GRAYSCALE_FILTER; }
 }

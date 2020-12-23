@@ -44,11 +44,11 @@ public class ArgParser extends GenericJob{
 	 *   - if a directory has been given, instead of a file
 	 *   - if read access is denied to the file
 	 */
-	public void setInputFilePath(String inputFilePath, boolean force) throws Exception {
+	public void setInputFilePath(final String inputFilePath, final boolean force) throws Exception {
 		if (this.inputFile != null && force == false) {
 			throw new Exception("Input file has already been set.");
 		}
-		File inputFile = new File(inputFilePath);
+		final File inputFile = new File(inputFilePath);
 
 		if (inputFile.exists()) {
 			if (inputFile.isFile()) {
@@ -65,26 +65,28 @@ public class ArgParser extends GenericJob{
 		}
 	}
 
-	/** Checks the validity of the given path and assigns it to outputFilePath if it is valid
+	/**
+	 * Checks the validity of the given path and assigns it to outputFilePath if it
+	 * is valid
 	 * 
 	 * @param outputFilePath = the path to the processed image
 	 * @throws Exception if the file already exists
 	 */
-	public void setOutputFilePath(String outputFilePath) throws Exception {
+	public void setOutputFilePath(final String outputFilePath) throws Exception {
 		if (this.outputFile != null) {
 			throw new Exception("Output file has already been set.");
 		}
 
-		File outputFile = new File(outputFilePath);
+		final File outputFile = new File(outputFilePath);
 
 		if (!outputFile.exists()) {
 			this.outputFile = outputFile;
 		} else {
 			System.out.println("File already exists. Overwrite? [Y=1/N=0]");
-			int input = Prompter.getInstance().getBoundedInt("overwrite?: ", 0, 1);
+			final int input = Prompter.getInstance().getBoundedInt("overwrite?: ", 0, 1);
 
 			if (input == 1) {
-				if ( outputFile.delete() ) {
+				if (outputFile.delete()) {
 					this.outputFile = new File(outputFilePath);
 				} else {
 					throw new Exception("Unable to delete file: '" + outputFilePath + "'");
@@ -95,20 +97,19 @@ public class ArgParser extends GenericJob{
 		}
 	}
 
-	/** Loops through the args array, and attempts to match the values to the appropriate fields,
-	 * based on the 'regex'
-	 * inputFilePath -> '--input'
-	 * outputFilePath -> '--output'
-	 * filterName -> '--filtre'
+	/**
+	 * Loops through the args array, and attempts to match the values to the
+	 * appropriate fields, based on the 'regex' inputFilePath -> '--input'
+	 * outputFilePath -> '--output' filterName -> '--filtre'
 	 * 
 	 * @param args = the array of arguments
 	 * @throws Exception: if insufficient or illegal arguments are found
 	 */
-	private void parse(String[] args) throws Exception {
+	private void parse(final String[] args) throws Exception {
 		switch (args.length) {
 			case 0:
 				throw new Exception("Insufficient arguments.\nSee '-h' for help");
-			
+
 			case 1:
 				if (args[0].equals("-h") || args[0].equals("--help")) {
 					for (int i = 0; i < HELP.length; i++)
@@ -117,17 +118,17 @@ public class ArgParser extends GenericJob{
 					throw new Exception("Unknown argument.\nSee '-h' for help");
 				}
 				break;
-			
+
 			case 2:
 				for (int i = 0; i < 2; i++) {
 					if (args[i].contains("--input=")) {
-						setInputFilePath( args[i].substring(8), false );
+						setInputFilePath(args[i].substring(8), false);
 					} else if (args[i].contains("-i=")) {
-						setInputFilePath( args[i].substring(3), false );
+						setInputFilePath(args[i].substring(3), false);
 					} else if (args[i].contains("--output=")) {
-						setOutputFilePath( args[i].substring(9) );
+						setOutputFilePath(args[i].substring(9));
 					} else if (args[i].contains("-o=")) {
-						setOutputFilePath( args[i].substring(3) );
+						setOutputFilePath(args[i].substring(3));
 					} else {
 						throw new Exception("Unknown argument.\nSee '-h' for help");
 					}
@@ -137,16 +138,21 @@ public class ArgParser extends GenericJob{
 				throw new Exception("Simp only accepts 2 arguments.\nSee '-h' for help");
 		}
 	}
-	
-	/** A wrapper for the @parse function, that implements the functionality of the Timer class
+
+	/**
+	 * A wrapper for the @parse function, that implements the functionality of the
+	 * Timer class
 	 * 
 	 * @param args = the list of arguments that will be passed to @parse
 	 * @throws Exception - rethrows all exceptions from @parse
 	 */
-	public void parseArguments(String[] args) throws Exception {
-		Timer timer = Timer.getInstance();
+	public void parseArguments(final String[] args) throws Exception {
+		final Timer timer = Timer.getInstance();
 		timer.startJob(String.valueOf(uID));
 		parse(args);
 		duration = timer.stopJob(String.valueOf(uID));
 	}
+
+	@Override
+	public String toString() { return "Argument parser"; }
 }

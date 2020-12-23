@@ -41,36 +41,40 @@ public class BmpIO extends GenericJob {
 		this.queue = new ArrayBlockingQueue<>(100);
 	}
 
-	private String path;
-	private BlockingQueue<Integer> queue;
-
+	private final String path;
+	private final BlockingQueue<Integer> queue;
 
 	public BitmapImage read() throws Exception {
-		BitmapImage image = new BitmapImage();
-		Producer producer = new Producer(path, queue);
-		Consumer consumer = new Consumer(queue, image);
+		final BitmapImage image = new BitmapImage();
+		final Producer producer = new Producer(path, queue);
+		final Consumer consumer = new Consumer(queue, image);
 
-		Thread producerThread = new Thread(producer);
-		Thread consumerThread = new Thread(consumer);
-		Timer.getInstance().startJob( "BmpIO" + getUID() );
+		final Thread producerThread = new Thread(producer);
+		final Thread consumerThread = new Thread(consumer);
+		Timer.getInstance().startJob("BmpIO" + getUID());
 		producerThread.start();
 		consumerThread.start();
-		
+
 		producerThread.join();
 		consumerThread.join();
-		duration = Timer.getInstance().stopJob( "BmpIO" + getUID() );
+		duration = Timer.getInstance().stopJob("BmpIO" + getUID());
 		return image;
 	}
 
-	/** A wrapper for ImageIO.write()
+	/**
+	 * A wrapper for ImageIO.write()
 	 * 
-	 * The assignment only required us to read the raw binary data, not to write it too, so ohwell :D
+	 * The assignment only required us to read the raw binary data, not to write it
+	 * too, so ohwell :D
 	 * 
 	 * @param image -> the image to be written on disk
-	 * @param path -> the path to the file
+	 * @param path  -> the path to the file
 	 * @throws IOException -> rethrows any ImageIO exceptions
 	 */
-	public void write(Image image, String path) throws IOException {
+	public void write(final Image image, final String path) throws IOException {
 		ImageIO.write(image.toBufferedImage(), "bmp", new File(path));
 	}
+
+	@Override
+	public String toString() { return "Bitmap image parser"; }
 }

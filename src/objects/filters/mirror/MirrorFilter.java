@@ -18,22 +18,22 @@ public class MirrorFilter extends GenericFilter {
 	 * 
 	 * @param mirroring -> the selected mirroring option
 	 */
-	public MirrorFilter(int mirroring) {
-		if (mirroring == MIRROR_VERTICAL || 
-			mirroring == MIRROR_HORIZONTAL || 
-			mirroring == MIRROR_DIAGONAL) {
+	public MirrorFilter(final int mirroring) {
+		if (mirroring == MIRROR_VERTICAL || mirroring == MIRROR_HORIZONTAL || mirroring == MIRROR_DIAGONAL) {
 			this.mirroring = mirroring;
 		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 
-	/** Mirrors the image by setting either x = width-x-1 or y=height-y-1, where x and y are pixel
-	 * coordinates
+	/**
+	 * Mirrors the image by setting either x = width-x-1 or y=height-y-1, where x
+	 * and y are pixel coordinates
 	 * 
 	 * MIRROR_VERTICAL only mirrors x, so x' = width -x - 1 and y' = y
 	 * MIRROR_HORIZONTAL only mirrors y, so x' = x and y' = height - y - 1
-	 * MIRROR_DIAGONAL mirrors both x and y, so x' = width -x - 1 and y' = height - y - 1
+	 * MIRROR_DIAGONAL mirrors both x and y, so x' = width -x - 1 and y' = height -
+	 * y - 1
 	 * 
 	 * then, pixels'[x'][y'] = pixels[x][y]
 	 * 
@@ -41,8 +41,8 @@ public class MirrorFilter extends GenericFilter {
 	 * @return -> the mirrored image
 	 */
 	@Override
-	public Image filter(Image image) {
-		Pixel[][] mirrored = new Pixel[image.getWidth()][image.getHeight()];
+	public Image filter(final Image image) {
+		final Pixel[][] mirrored = new Pixel[image.getWidth()][image.getHeight()];
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				final int newX = (mirroring == MIRROR_VERTICAL   || mirroring == MIRROR_DIAGONAL)
@@ -57,8 +57,19 @@ public class MirrorFilter extends GenericFilter {
 		return new Image(mirrored);
 	}
 
-	/** Returns the type of filter. mirror, in this case */
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return MIRROR_FILTER; }
+	public String describe() { 
+		String axis = "";
+		switch (mirroring) {
+			case MIRROR_VERTICAL: axis = "vertical"; break;
+			case MIRROR_HORIZONTAL: axis = "horizontal"; break;
+			case MIRROR_DIAGONAL: axis = "diagonal"; break;
+		}
+		return toString() + "( " + axis + " )";
+	}
+
+	@Override
+	public String toString() { return MIRROR_FILTER; }
 	
 }

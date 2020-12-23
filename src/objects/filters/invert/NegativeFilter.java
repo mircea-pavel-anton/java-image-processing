@@ -18,10 +18,10 @@ public class NegativeFilter extends GenericFilter {
 	 * @return -> the inverted image
 	 */
 	@Override
-	public Image filter(Image image) {
+	public Image filter(final Image image) {
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
-				Pixel pixel = image.getPixelAt(x, y);
+				final Pixel pixel = image.getPixelAt(x, y);
 				image.setPixelAt(
 					x,
 					y,
@@ -32,8 +32,11 @@ public class NegativeFilter extends GenericFilter {
 		return image;
 	}
 
-	/** Returns the type of filter. negative, in this case */
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return NEGATIVE_FILTER; }
+	public String describe() { return toString() + "()"; }
+
+	@Override
+	public String toString() { return NEGATIVE_FILTER; }
 	
 }

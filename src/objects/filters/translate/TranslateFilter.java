@@ -16,7 +16,7 @@ public class TranslateFilter extends GenericFilter {
 	 * @param x -> number of pixels to translate on the x axis
 	 * @param y -> number of pixels to translate on the y axis
 	 */
-	public TranslateFilter(int x, int y) {
+	public TranslateFilter(final int x, final int y) {
 		if (x >= 0 && y >= 0) {
 			xDelta = x;
 			yDelta = y;
@@ -26,35 +26,37 @@ public class TranslateFilter extends GenericFilter {
 		}
 	}
 
-	/** Constructor
-	 * Ensures the given deltas for the x and y axis are positive integers.
+	/**
+	 * Constructor Ensures the given deltas for the x and y axis are positive
+	 * integers.
 	 * 
-	 * @param x -> number of pixels to translate on the x axis
-	 * @param y -> number of pixels to translate on the y axis
+	 * @param x     -> number of pixels to translate on the x axis
+	 * @param y     -> number of pixels to translate on the y axis
 	 * @param color -> the Pixel used to fill in the blanks
 	 */
-	public TranslateFilter(int x, int y, Pixel color) {
+	public TranslateFilter(final int x, final int y, final Pixel color) {
 		if (x >= 0 && y >= 0) {
 			xDelta = x;
 			yDelta = y;
 			fillColor = color;
-		}else {
+		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 
-	/** Translates the image xDelta pixels to the right and yDelta pixels down
-	 * All the newly created pixels are then set to the given color (fillColor)
+	/**
+	 * Translates the image xDelta pixels to the right and yDelta pixels down All
+	 * the newly created pixels are then set to the given color (fillColor)
 	 * 
 	 * @param image -> the image to be processed
 	 * @return -> the translated image
-	*/
+	 */
 	@Override
-	public Image filter(Image image) {
-		Pixel[][] translated = new Pixel[image.getWidth() + xDelta][image.getHeight() + yDelta];
-		
+	public Image filter(final Image image) {
+		final Pixel[][] translated = new Pixel[image.getWidth() + xDelta][image.getHeight() + yDelta];
+
 		// Fill the gaps with the specified color
-		for (int x = 0; x <  xDelta + image.getWidth(); x++) {
+		for (int x = 0; x < xDelta + image.getWidth(); x++) {
 			for (int y = 0; y < yDelta + image.getHeight(); y++) {
 				translated[x][y] = fillColor;
 			}
@@ -63,15 +65,18 @@ public class TranslateFilter extends GenericFilter {
 		// Copy the image, starting from xDelta, yDelta
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
-				int newX = x + xDelta;
-				int newY = y + yDelta;
+				final int newX = x + xDelta;
+				final int newY = y + yDelta;
 				translated[newX][newY] = image.getPixelAt(x, y);
 			}
 		}
 		return new Image(translated);
 	}
 
-	/** Returns the type of filter. translate, in this case */
+	/** Returns a human-readable filter description */
 	@Override
-	public String getType() { return TRANSLATE_FILTER; }
+	public String describe() { return toString() + "( x=" + xDelta + ", y=" + yDelta + " )"; }
+
+	@Override
+	public String toString() { return TRANSLATE_FILTER; }
 }

@@ -12,5 +12,9 @@ public abstract class GenericJob {
 		return uID;
 	}
 
+	// Getter
 	public long getDuration() { return this.duration; }
+
+	/** Returns a summary that specifies execution time */
+	public String getSummary() { return this.toString() + " took " + duration + " ms"; }
 }

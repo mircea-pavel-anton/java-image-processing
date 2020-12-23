@@ -24,8 +24,8 @@ public abstract class AbstractGrayLevelFilter extends GenericFilter {
 	 * @return -> the gray-level adjusted image
 	 */
 	@Override
-	public Image filter(Image image) {
-		Pixel[][] pixels = image.getPixels();
+	public Image filter(final Image image) {
+		final Pixel[][] pixels = image.getPixels();
 		for (int x = 0; x < image.getWidth(); x++) {
 			for (int y = 0; y < image.getHeight(); y++) {
 				pixels[x][y] = transform(pixels[x][y]);
@@ -33,9 +33,4 @@ public abstract class AbstractGrayLevelFilter extends GenericFilter {
 		}
 		return new Image(pixels);
 	}
-
-	/** Returns the type of filter. gray-level, in this case */
-	@Override
-	public String getType() { return GRAY_LEVEL_FILTER; }
-	
 }
