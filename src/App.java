@@ -1,11 +1,10 @@
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
 import objects.filters.GenericFilter;
 import objects.image.Image;
 import objects.singletons.ArgParser;
+import objects.singletons.BmpIO;
 import objects.singletons.FilterBuilder;
 
 public class App {
@@ -21,14 +20,14 @@ public class App {
 			// if the argument was '-h' or '--help'
 			// otherwise, some exception would have been thrown
 			if (input != null && output != null) {
+				Image temp = BmpIO.getInstance().read();
+
 				FilterBuilder fBuilder = FilterBuilder.getInstance();
 				fBuilder.run(); // run the builder
 
 				// Retrieve the filter list from the builder
 				ArrayList<GenericFilter> filters = fBuilder.getFilters();
 
-				// Read the input file into an image object
-				Image temp = new Image(input.getAbsolutePath());
 	
 				// Run each filter from the list, in order
 				// Supply each filter with the image produced by the previous one
@@ -37,7 +36,7 @@ public class App {
 				}
 
 				// After all the processing was done, save the image in bmp format
-				ImageIO.write(temp.toBufferedImage(), "bmp", output);
+				BmpIO.getInstance().write(temp, output.getAbsolutePath());
 
 				// Show a summary of the execution process
 				System.out.println("\nProcessing finished!");
@@ -49,6 +48,7 @@ public class App {
 					System.out.println("Applying the " + filters.get(i).getType() + " filter took: " + filters.get(i).getDuration() + " ms");
 				}
 				System.out.println("-----------------\n");
+				return;
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
