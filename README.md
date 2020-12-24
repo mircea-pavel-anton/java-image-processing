@@ -118,7 +118,7 @@ See the `objects.runnables` package. It implements a `Producer` and a `Consumer`
 > 7. Must keep track of execution times for all segments of the app
 
 The `Timer` singleton is implemented to actually keep track of execution times via 2 hash maps. All classes that extend `Generic Job` have the `duration` field and they all implement a method that uses the `Timer` singleton.  
-At the end of the program, a summary is shown, highlighting the exeecution time for each component;
+At the end of the program, a summary is shown, highlighting the execution time for each component;
 
 
 ## What I Learned
@@ -130,7 +130,7 @@ Overall, i found this project rather captivating, as I have never touched digita
 
 Writing my own parser for the 24-bit BMP file format was... interesting, and a bit more challenging than I expected it to be.
 
-I have never attempted to implement the `Producer-Consumer` design pattern before, so implementing it now was prime learning material. Ideally, I would have implemented my own custom `BlockingQueue`, but i ran our of time and energy.
+I have never attempted to implement the `Producer-Consumer` design pattern before, so implementing it now was prime learning material. Ideally, I would have implemented my own custom `BlockingQueue`, but i ran out of time and energy.
 
 ## Feedback, suggestions and help
 
