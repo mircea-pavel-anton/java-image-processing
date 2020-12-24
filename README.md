@@ -35,7 +35,9 @@ A Simple Image Manipulation Program (SIMP) written in Java as a university assig
     - Laplacian Operator via Convolution Mask
 
 ## How to use
-To see the `help` screen, run `simp -h` or `simp --help`
+To run the `.jar` file available in the releases page, you run the following command: `java -jar Simp.jar`.
+
+To see the `help` screen, use the `-h` or `--help` flags.
 
 !["Help command"](./res/readme/simp_help.png)
 
