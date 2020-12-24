@@ -3,7 +3,7 @@ A Simple Image Manipulation Program (SIMP) written in Java as a university assig
 
 ## Available filters
 - Grayscale Filter
-    - Aveerage method
+    - Average method
     - Weighted method
 - Normalization Filter
 - Negative Image filter
@@ -46,7 +46,7 @@ If the file already exists, the program will ask if you wish to overwrite it.
 
 !["Usage showcase"](./res/readme/simp_usage.gif)
 
-You can check out the [before](./res/input/doggo.bmp) and [after](./res/output/doggo_out.bmp).
+You can check out the [before](./res/input/doggo.bmp) and [after](./res/output/doggo_out.bmp) images.
 
 ## The homework requirements
 
@@ -129,8 +129,6 @@ Overall, i found this project rather captivating, as I have never touched digita
 Writing my own parser for the 24-bit BMP file format was... interesting, and a bit more challenging than I expected it to be.
 
 I have never attempted to implement the `Producer-Consumer` design pattern before, so implementing it now was prime learning material. Ideally, I would have implemented my own custom `BlockingQueue`, but i ran our of time and energy.
-
-<br>
 
 ## Feedback, suggestions and help
 
