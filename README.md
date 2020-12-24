@@ -130,3 +130,13 @@ Writing my own parser for the 24-bit BMP file format was... interesting, and a b
 
 I have never attempted to implement the `Producer-Consumer` design pattern before, so implementing it now was prime learning material. Ideally, I would have implemented my own custom `BlockingQueue`, but i ran our of time and energy.
 
+<br>
+
+## Feedback, suggestions and help
+
+For feedback, suggestions, bug reports etc., feel free to e-mail me at 'mike.anth99@gmail.com'.
+
+---
+
+_a project by Mircea-Pavel Anton (Mike Anthony)_
+
