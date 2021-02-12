@@ -315,16 +315,18 @@ public class Consumer implements Runnable {
 
 		switch (bitmapImage.getBytesPerPixel()) {
 			case 3: // 24 bit BMP
-				switch (position % 3) {
-					case 1:
-						FSM_State1();
-						break; // read blue
-					case 2:
-						FSM_State2();
-						break; // read green
-					case 0:
-						FSM_State3();
-						break; // read red & increment
+				if (position > 0) {
+					switch (position % 3) {
+						case 1:
+							FSM_State1();
+							break; // read blue
+						case 2:
+							FSM_State2();
+							break; // read green
+						case 0:
+							FSM_State3();
+							break; // read red & increment
+					}
 				}
 				if (isDone)
 					return; // if we run out of pixels
